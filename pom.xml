@@ -12,7 +12,7 @@
 	<artifactId>frugalflyer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>frugalflyer</name>
-	<description>RESTful API built Spring Boot for users looking for cheap flights.</description>
+	<description>RESTful API built with Spring Boot for users looking for cheap flights.</description>
 	<url/>
 	<licenses>
 		<license/>

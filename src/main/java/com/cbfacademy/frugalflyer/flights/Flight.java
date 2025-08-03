@@ -51,6 +51,10 @@ public class Flight {
         this.departureDate = departureDate;
     }
 
+    public Flight() {
+        this(null, null, 0.00, null);
+    }
+
     /**
      * Gets the ID of the flight.
      * @return the flight ID.

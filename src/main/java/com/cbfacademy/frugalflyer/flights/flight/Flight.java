@@ -1,6 +1,8 @@
-package com.cbfacademy.frugalflyer.flights;
+package com.cbfacademy.frugalflyer.flights.flight;
 
 import java.time.LocalDate;
+
+import com.cbfacademy.frugalflyer.flights.airport.Airport;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,8 +1,10 @@
-package com.cbfacademy.frugalflyer.flights;
+package com.cbfacademy.frugalflyer.flights.flight;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import com.cbfacademy.frugalflyer.flights.airport.Airport;
 
 /**
  * Service class to manage flight objects
@@ -28,5 +30,8 @@ public class FlightService {
         return flightRepo.findByDestinationAirport(destinationAirport);
     }
 
+    // public List<Flight> findByClimate(String climate) {
+    //     return flightRepo.findByClimate(climate);
+    // }
 
 }

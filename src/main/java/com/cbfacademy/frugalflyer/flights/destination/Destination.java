@@ -1,4 +1,4 @@
-package com.cbfacademy.frugalflyer.flights;
+package com.cbfacademy.frugalflyer.flights.destination;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.cbfacademy.frugalflyer.flights;
+package com.cbfacademy.frugalflyer.flights.airport;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

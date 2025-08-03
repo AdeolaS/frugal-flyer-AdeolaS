@@ -1,8 +1,14 @@
-package com.cbfacademy.frugalflyer.flights;
+package com.cbfacademy.frugalflyer.flights.flight;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.cbfacademy.frugalflyer.flights.destination.DestinationRepository;
+
+import com.cbfacademy.frugalflyer.flights.airport.AirportRepository;
+import com.cbfacademy.frugalflyer.flights.airport.AirportService;
+import com.cbfacademy.frugalflyer.flights.airport.Airport;
 
 import java.util.List;
 
@@ -14,11 +20,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FlightController {
     
     private final FlightService flightService;
-    private final AirportRepository airportRepo;
+    private final AirportService airportService;
 
-    public FlightController(FlightService flightService, AirportRepository airportRepo) {
+    public FlightController(FlightService flightService, AirportService airportService) {
         this.flightService = flightService;
-        this.airportRepo = airportRepo;
+        this.airportService = airportService;
     }
 
     @GetMapping
@@ -30,10 +36,14 @@ public class FlightController {
     // Spring can't convert the Airport object type from the request parameter so must receive a string instead.
     public List<Flight> findByDestinationAirport(@RequestParam String destinationAirportCode) {
 
-        Airport destinationAirport = airportRepo.findById(destinationAirportCode.toUpperCase()).orElseThrow();
+        // Finds Destination Airport using the airport code
+        Airport destinationAirport = airportService.findAirportById(destinationAirportCode);
         return flightService.findByDestinationAirport(destinationAirport);
-        
     }
     
+    // @GetMapping("/climate")
+    // public List<Flight> findByClimate(@RequestParam String climate) {
+
+    // }
 
 }

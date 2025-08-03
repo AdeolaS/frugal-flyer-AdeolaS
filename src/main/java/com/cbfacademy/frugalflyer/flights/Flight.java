@@ -19,7 +19,7 @@ public class Flight {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     /** 
      * Airport which the flight departs from.
      * Many To One annotation indicates that many flight entities can be associated with one airport.
@@ -43,6 +43,13 @@ public class Flight {
      * Departure date of the flight.
      */
     private LocalDate departureDate;
+
+    public Flight(Airport originAirport, Airport destinationAirport, double price, LocalDate departureDate) {
+        this.originAirport = originAirport;
+        this.destinationAirport = destinationAirport;
+        this.price = price;
+        this.departureDate = departureDate;
+    }
 
     /**
      * Gets the ID of the flight.

@@ -1,5 +1,53 @@
+INSERT IGNORE INTO destinations (id, city, country, climate) VALUES
+  (1, 'London', 'United Kingdom', 'Temperate'),
+  (2, 'New York', 'United States', 'Temperate'),
+  (3, 'Paris', 'France', 'Temperate'),
+  (4, 'Dubai', 'United Arab Emirates', 'Desert'),
+  (5, 'Tokyo', 'Japan', 'Humid Subtropical'),
+  (6, 'Singapore', 'Singapore', 'Tropical'),
+  (7, 'Sydney', 'Australia', 'Temperate'),
+  (8, 'Frankfurt', 'Germany', 'Temperate'),
+  (9, 'Amsterdam', 'Netherlands', 'Temperate'),
+  (10, 'Madrid', 'Spain', 'Mediterranean'),
+  (11, 'Toronto', 'Canada', 'Continental'),
+  (12, 'São Paulo', 'Brazil', 'Tropical'),
+  (13, 'Johannesburg', 'South Africa', 'Subtropical Highland'),
+  (14, 'Istanbul', 'Turkey', 'Mediterranean'),
+  (15, 'San Francisco', 'United States', 'Mediterranean'),
+  (16, 'Los Angeles', 'United States', 'Mediterranean'),
+  (17, 'Mexico City', 'Mexico', 'Subtropical Highland'),
+  (18, 'Mumbai', 'India', 'Tropical Wet and Dry'),
+  (19, 'Seoul', 'South Korea', 'Humid Continental'),
+  (20, 'Barcelona', 'Spain', 'Mediterranean');
+
+-- Destination Tags
+
+INSERT IGNORE INTO destination_tags (destination_id, tags) VALUES
+  (1, 'historic'), (1, 'cosmopolitan'), (1, 'multicultural'), (1, 'business'), (1, 'finance'),
+  (2, 'shopping'), (2, 'skyscrapers'), (2, 'multicultural'), (1, 'business'), (1, 'finance'),
+  (3, 'romantic'), (3, 'art'),
+  (4, 'luxury'), (4, 'desert'),
+  (5, 'technology'), (5, 'culture'), (5, 'clean'), (5, 'food'),
+  (6, 'clean'), (6, 'food'),
+  (7, 'beaches'), (7, 'outdoors'),
+  (8, 'business'), (8, 'finance'),
+  (9, 'canals'), (9, 'bicycles'),
+  (10, 'sunny'), (10, 'art'),
+  (11, 'multicultural'), (11, 'nature'),
+  (12, 'vibrant'), (12, 'nightlife'),
+  (13, 'wildlife'), (13, 'adventure'),
+  (14, 'historic'), (14, 'bazaars'),
+  (15, 'tech'), (15, 'bay'),
+  (16, 'movies'), (16, 'beaches'),
+  (17, 'culture'), (17, 'altitude'), (17, 'vibrant'),
+  (18, 'bollywood'), (18, 'monsoon'), (17, 'vibrant'),
+  (19, 'modern'), (19, 'palaces'),
+  (20, 'architecture'), (20, 'beaches');
+  
+
+
 -- Airports
-INSERT INTO airports (code, name, city, country) VALUES
+INSERT IGNORE INTO airports (code, name, city, country) VALUES
   ('LHR', 'Heathrow Airport', 'London', 'United Kingdom'),
   ('JFK', 'John F. Kennedy International Airport', 'New York', 'United States'),
   ('CDG', 'Charles de Gaulle Airport', 'Paris', 'France'),
@@ -22,7 +70,7 @@ INSERT INTO airports (code, name, city, country) VALUES
   ('BCN', 'Barcelona-El Prat Airport', 'Barcelona', 'Spain');
 
 -- Flights
-INSERT INTO flights (origin_airport_id, destination_airport_id, price, departure_date) VALUES
+INSERT IGNORE INTO flights (origin_airport_id, destination_airport_id, price, departure_date) VALUES
   ('LHR', 'JFK', 450.00, '2025-08-10'),
   ('JFK', 'CDG', 500.00, '2025-08-15'),
   ('CDG', 'DXB', 600.00, '2025-08-20'),

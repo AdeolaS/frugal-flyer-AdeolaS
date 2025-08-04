@@ -24,7 +24,7 @@ INSERT IGNORE INTO destinations (id, city, country, climate) VALUES
 
 INSERT IGNORE INTO destination_tags (destination_id, tags) VALUES
   (1, 'historic'), (1, 'cosmopolitan'), (1, 'multicultural'), (1, 'business'), (1, 'finance'),
-  (2, 'shopping'), (2, 'skyscrapers'), (2, 'multicultural'), (1, 'business'), (1, 'finance'),
+  (2, 'shopping'), (2, 'skyscrapers'), (2, 'multicultural'), (2, 'business'), (3, 'finance'),
   (3, 'romantic'), (3, 'art'),
   (4, 'luxury'), (4, 'desert'),
   (5, 'technology'), (5, 'culture'), (5, 'clean'), (5, 'food'),
@@ -40,7 +40,7 @@ INSERT IGNORE INTO destination_tags (destination_id, tags) VALUES
   (15, 'tech'), (15, 'bay'),
   (16, 'movies'), (16, 'beaches'),
   (17, 'culture'), (17, 'altitude'), (17, 'vibrant'),
-  (18, 'bollywood'), (18, 'monsoon'), (17, 'vibrant'),
+  (18, 'bollywood'), (18, 'monsoon'), (18, 'vibrant'),
   (19, 'modern'), (19, 'palaces'),
   (20, 'architecture'), (20, 'beaches');
   

@@ -1,6 +1,7 @@
 package com.cbfacademy.frugalflyer.flights.airport;
 
 import com.cbfacademy.frugalflyer.flights.destination.Destination;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -28,6 +29,8 @@ public class Airport {
 
     @ManyToOne
     @JoinColumn(name = "destination_id")
+    // To prevent infinite recursion caused by bidirectional relationship.
+    @JsonIgnore
     private Destination destination;
 
     /**

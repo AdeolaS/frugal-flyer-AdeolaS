@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cbfacademy.frugalflyer.flights.airport.AirportService;
 import com.cbfacademy.frugalflyer.flights.airport.Airport;
 
-import java.time.LocalDate;
+
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;

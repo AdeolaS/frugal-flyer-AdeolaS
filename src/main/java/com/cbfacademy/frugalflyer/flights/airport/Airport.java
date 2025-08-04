@@ -1,7 +1,11 @@
 package com.cbfacademy.frugalflyer.flights.airport;
 
+import com.cbfacademy.frugalflyer.flights.destination.Destination;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -20,21 +24,18 @@ public class Airport {
 	 * The name of the airport.
 	 */
     private String name;
-    /**
-	 * The city that the airport resides in.
-	 */
-    private String city;
-    /**
-	 * The country that the airport resides in.
-	 */
-    private String country;
+
+
+    @ManyToOne
+    @JoinColumn(name = "destination_id")
+    private Destination destination;
 
     /**
 	 * Default no-params constructor.
      * Initialises all fields to null.
 	 */
     public Airport() {
-        this(null, null, null, null);
+        this(null, null, null);
     }
 
     /**
@@ -44,11 +45,10 @@ public class Airport {
      * @param city The city that the airport resides in.
      * @param country The country that the airport resides in.
      */
-    public Airport(String code, String name, String city, String country) {
+    public Airport(String code, String name, Destination destination) {
         this.code = code;
         this.name = name;
-        this.city = city;
-        this.country = country;
+        this.destination = destination;
     }
 
     /**
@@ -69,24 +69,6 @@ public class Airport {
     }
 
     /**
-     * Sets the city where the airport is located.
-     * 
-     * @param city The city to set.
-     */
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    /**
-     * Sets the country where the airport is located.
-     * 
-     * @param country The country to set.
-     */
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    /**
      * Gets the code of the airport.
      * 
      * @return The airport code.
@@ -104,21 +86,11 @@ public class Airport {
         return this.name;
     }
 
-    /**
-     * Gets the city where the airport is located.
-     * 
-     * @return The city of the airport.
-     */
-    public String getCity() {
-        return this.city;
+    public Destination getDestination() {
+        return this.destination;
     }
 
-    /**
-     * Gets the country where the airport is located.
-     * 
-     * @return The country of the airport.
-     */
-    public String getCountry() {
-        return this.country;
+    public void setDestination(Destination destination) {
+        this.destination = destination;
     }
 }

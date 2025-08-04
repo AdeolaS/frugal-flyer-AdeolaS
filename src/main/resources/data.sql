@@ -47,27 +47,27 @@ INSERT IGNORE INTO destination_tags (destination_id, tags) VALUES
 
 
 -- Airports
-INSERT IGNORE INTO airports (code, name, city, country) VALUES
-  ('LHR', 'Heathrow Airport', 'London', 'United Kingdom'),
-  ('JFK', 'John F. Kennedy International Airport', 'New York', 'United States'),
-  ('CDG', 'Charles de Gaulle Airport', 'Paris', 'France'),
-  ('DXB', 'Dubai International Airport', 'Dubai', 'United Arab Emirates'),
-  ('HND', 'Haneda Airport', 'Tokyo', 'Japan'),
-  ('SIN', 'Changi Airport', 'Singapore', 'Singapore'),
-  ('SYD', 'Sydney Kingsford Smith Airport', 'Sydney', 'Australia'),
-  ('FRA', 'Frankfurt Airport', 'Frankfurt', 'Germany'),
-  ('AMS', 'Amsterdam Schiphol Airport', 'Amsterdam', 'Netherlands'),
-  ('MAD', 'Adolfo Suárez Madrid-Barajas Airport', 'Madrid', 'Spain'),
-  ('YYZ', 'Toronto Pearson International Airport', 'Toronto', 'Canada'),
-  ('GRU', 'São Paulo-Guarulhos International Airport', 'São Paulo', 'Brazil'),
-  ('JNB', 'O. R. Tambo International Airport', 'Johannesburg', 'South Africa'),
-  ('IST', 'Istanbul Airport', 'Istanbul', 'Turkey'),
-  ('SFO', 'San Francisco International Airport', 'San Francisco', 'United States'),
-  ('LAX', 'Los Angeles International Airport', 'Los Angeles', 'United States'),
-  ('MEX', 'Mexico City International Airport', 'Mexico City', 'Mexico'),
-  ('BOM', 'Chhatrapati Shivaji Maharaj International Airport', 'Mumbai', 'India'),
-  ('ICN', 'Incheon International Airport', 'Seoul', 'South Korea'),
-  ('BCN', 'Barcelona-El Prat Airport', 'Barcelona', 'Spain');
+INSERT IGNORE INTO airports (code, name, destination_id) VALUES
+  ('LHR', 'Heathrow Airport', 1),
+  ('JFK', 'John F. Kennedy International Airport', 2),
+  ('CDG', 'Charles de Gaulle Airport', 3),
+  ('DXB', 'Dubai International Airport', 4),
+  ('HND', 'Haneda Airport', 5),
+  ('SIN', 'Changi Airport', 6),
+  ('SYD', 'Sydney Kingsford Smith Airport', 7),
+  ('FRA', 'Frankfurt Airport', 8),
+  ('AMS', 'Amsterdam Schiphol Airport', 9),
+  ('MAD', 'Adolfo Suárez Madrid-Barajas Airport', 10),
+  ('YYZ', 'Toronto Pearson International Airport', 11),
+  ('GRU', 'São Paulo-Guarulhos International Airport', 12),
+  ('JNB', 'O. R. Tambo International Airport', 13),
+  ('IST', 'Istanbul Airport', 14),
+  ('SFO', 'San Francisco International Airport', 15),
+  ('LAX', 'Los Angeles International Airport', 16),
+  ('MEX', 'Mexico City International Airport', 17),
+  ('BOM', 'Chhatrapati Shivaji Maharaj International Airport', 18),
+  ('ICN', 'Incheon International Airport', 19),
+  ('BCN', 'Barcelona-El Prat Airport', 20);
 
 -- Flights
 INSERT IGNORE INTO flights (origin_airport_id, destination_airport_id, price, departure_date) VALUES

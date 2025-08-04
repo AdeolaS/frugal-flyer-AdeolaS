@@ -4,12 +4,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cbfacademy.frugalflyer.flights.destination.DestinationRepository;
-
-import com.cbfacademy.frugalflyer.flights.airport.AirportRepository;
 import com.cbfacademy.frugalflyer.flights.airport.AirportService;
 import com.cbfacademy.frugalflyer.flights.airport.Airport;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +28,14 @@ public class FlightController {
     @GetMapping
     public List<Flight> getAllflights() {
         return flightService.getAllFlights();
+    }
+
+    @GetMapping("/search")
+    public List<Flight> getFlights(@RequestParam String originAirport, 
+                    @RequestParam (required = false) String destinationAirport, 
+                    @RequestParam (defaultValue = "1500") double maxBudget) {
+        
+        return flightService.getFlights(originAirport, destinationAirport, maxBudget);
     }
     
     @GetMapping("/destination")

@@ -1,6 +1,8 @@
 package com.cbfacademy.frugalflyer.flights.flight;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,15 @@ public class FlightService {
 
     public List<Flight> getAllFlights() {
         return flightRepo.findAll();
+    }
+
+    public List<Flight> getFlights(String originAirport, String destinationAirport, double maxBudget) {
+        //flightRepo.findAll().forEach(f -> System.out.println("Origin: " + f.getOriginAirport().getCode() + originAirport));
+        return flightRepo.findAll().stream()
+        .filter(f -> f.getOriginAirport().getCode().equalsIgnoreCase(originAirport))
+        .filter(f -> f.getDestinationAirport().getCode().equalsIgnoreCase(destinationAirport))
+        .filter(f -> f.getPrice() <= maxBudget)
+        .collect(Collectors.toList());
     }
 
     // public Flight getRandomFlight() {

@@ -70,7 +70,7 @@ INSERT IGNORE INTO airports (code, name, destination_id) VALUES
   ('BCN', 'Barcelona-El Prat Airport', 20);
 
 -- Flights
-INSERT IGNORE INTO flights (origin_airport_id, destination_airport_id, price, departure_date) VALUES
+INSERT IGNORE INTO flights (departure_airport_id, arrival_airport_id, price, departure_date) VALUES
   ('LHR', 'JFK', 450.00, '2025-08-10'),
   ('LHR', 'JFK', 480.00, '2025-08-17'),
   ('LHR', 'JFK', 420.00, '2025-09-01'),

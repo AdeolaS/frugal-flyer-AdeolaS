@@ -25,18 +25,18 @@ public class Flight {
     /** 
      * Airport which the flight departs from.
      * Many To One annotation indicates that many flight entities can be associated with one airport.
-     * origin_airport_id will store the foreign key reference to the airport entity.
+     * departure_airport_id will store the foreign key reference to the airport entity.
      */
     @ManyToOne
-    @JoinColumn(name = "origin_airport_id")
-    private Airport originAirport;
+    @JoinColumn(name = "departure_airport_id")
+    private Airport departureAirport;
     /** 
      * Airport which the flight arrives at.
-     * destination_airport_id will store the foreign key reference to the airport entity.
+     * arrival_airport_id will store the foreign key reference to the airport entity.
      */
     @ManyToOne
-    @JoinColumn(name = "destination_airport_id")
-    private Airport destinationAirport;
+    @JoinColumn(name = "arrival_airport_id")
+    private Airport arrivalAirport;
     /**
      * Price of the flight.
      */
@@ -46,9 +46,9 @@ public class Flight {
      */
     private LocalDate departureDate;
 
-    public Flight(Airport originAirport, Airport destinationAirport, double price, LocalDate departureDate) {
-        this.originAirport = originAirport;
-        this.destinationAirport = destinationAirport;
+    public Flight(Airport departureAirport, Airport arrivalAirport, double price, LocalDate departureDate) {
+        this.departureAirport = departureAirport;
+        this.arrivalAirport = arrivalAirport;
         this.price = price;
         this.departureDate = departureDate;
     }
@@ -77,32 +77,32 @@ public class Flight {
      * Gets the origin airport of the flight.
      * @return the origin airport.
      */
-    public Airport getOriginAirport() {
-        return originAirport;
+    public Airport getdepartureAirport() {
+        return departureAirport;
     }
 
     /**
      * Sets the origin airport of the flight.
-     * @param originAirport the origin airport to set.
+     * @param departureAirport the origin airport to set.
      */
-    public void setOriginAirport(Airport originAirport) {
-        this.originAirport = originAirport;
+    public void setdepartureAirport(Airport departureAirport) {
+        this.departureAirport = departureAirport;
     }
 
     /**
      * Gets the destination airport of the flight.
      * @return the destination airport.
      */
-    public Airport getDestinationAirport() {
-        return destinationAirport;
+    public Airport getarrivalAirport() {
+        return arrivalAirport;
     }
 
     /**
      * Sets the destination airport of the flight.
-     * @param destinationAirport the destination airport to set.
+     * @param arrivalAirport the destination airport to set.
      */
-    public void setDestinationAirport(Airport destinationAirport) {
-        this.destinationAirport = destinationAirport;
+    public void setarrivalAirport(Airport arrivalAirport) {
+        this.arrivalAirport = arrivalAirport;
     }
 
     /**

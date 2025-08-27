@@ -4,10 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cbfacademy.frugalflyer.flights.airport.AirportService;
-import com.cbfacademy.frugalflyer.flights.airport.Airport;
-
-
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,40 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FlightController {
     
     private final FlightService flightService;
-    private final AirportService airportService;
 
-    public FlightController(FlightService flightService, AirportService airportService) {
+    public FlightController(FlightService flightService) {
         this.flightService = flightService;
-        this.airportService = airportService;
-    }
-
-    @GetMapping
-    public List<Flight> getAllflights() {
-        return flightService.getAllFlights();
     }
 
     @GetMapping("/search")
-    public List<Flight> getFlights(@RequestParam String originAirport, 
-                    @RequestParam (required = false) String destinationAirport, 
-                    @RequestParam (defaultValue = "1500") double maxBudget,
-                    @RequestParam (required = false) String climate) {
-        
-        System.out.println("originAirport: " + originAirport + " destinationAirport: " + destinationAirport + " maxBudget: " + maxBudget + " climate: " + climate);
-        return flightService.getFlights(originAirport, destinationAirport, maxBudget, climate);
+    public List<Flight> searchFlights() {
+        return flightService.searchFlights();
     }
-    
-    @GetMapping("/destination")
-    // Spring can't convert the Airport object type from the request parameter so must receive a string instead.
-    public List<Flight> findByDestinationAirport(@RequestParam String destinationAirportCode) {
-
-        // Finds Destination Airport using the airport code
-        Airport destinationAirport = airportService.findAirportById(destinationAirportCode);
-        return flightService.findByDestinationAirport(destinationAirport);
-    }
-    
-    // @GetMapping("/climate")
-    // public List<Flight> findByClimate(@RequestParam String climate) {
-
-    // }
 
 }

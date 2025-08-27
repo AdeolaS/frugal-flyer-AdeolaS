@@ -2,13 +2,16 @@ package com.cbfacademy.frugalflyer.flights.flight;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.repository.query.Param;
 
-import com.cbfacademy.frugalflyer.flights.airport.Airport;
 
 public interface FlightRepository extends ListCrudRepository<Flight, Long> {
 	
-    List<Flight> findByDestinationAirport(Airport destinationAirport);
+    @Query("SELECT f FROM Flight f "
+           )
+    List<Flight> searchFlights(
+    );
 
-    // List<Flight> findByClimate(String climate);
 }

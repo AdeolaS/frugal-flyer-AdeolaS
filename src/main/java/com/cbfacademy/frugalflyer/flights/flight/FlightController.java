@@ -33,9 +33,11 @@ public class FlightController {
     @GetMapping("/search")
     public List<Flight> getFlights(@RequestParam String originAirport, 
                     @RequestParam (required = false) String destinationAirport, 
-                    @RequestParam (defaultValue = "1500") double maxBudget) {
+                    @RequestParam (defaultValue = "1500") double maxBudget,
+                    @RequestParam (required = false) String climate) {
         
-        return flightService.getFlights(originAirport, destinationAirport, maxBudget);
+        System.out.println("originAirport: " + originAirport + " destinationAirport: " + destinationAirport + " maxBudget: " + maxBudget + " climate: " + climate);
+        return flightService.getFlights(originAirport, destinationAirport, maxBudget, climate);
     }
     
     @GetMapping("/destination")

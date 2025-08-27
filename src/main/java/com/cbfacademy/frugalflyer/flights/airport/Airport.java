@@ -41,13 +41,7 @@ public class Airport {
         this(null, null, null);
     }
 
-    /**
-     * Parameterised constructor to create an airport with specified details.
-     * @param code ID of the airport.
-     * @param name The name of the airport.
-     * @param city The city that the airport resides in.
-     * @param country The country that the airport resides in.
-     */
+ 
     public Airport(String code, String name, Destination destination) {
         this.code = code;
         this.name = name;

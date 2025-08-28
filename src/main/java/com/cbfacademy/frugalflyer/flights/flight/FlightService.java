@@ -19,10 +19,18 @@ public class FlightService {
         this.flightRepo = flightRepo;
     }
 
-    public List<Flight> searchFlights(double maxBudget, String departureAirport, String climate) {
+    public List<Flight> searchFlights(double maxBudget, String departureAirport, String arrivalAirport, String climate) {
         
-        return flightRepo.searchFlights(maxBudget, departureAirport, climate);
+        return flightRepo.searchFlights(maxBudget, departureAirport, arrivalAirport, climate);
     }
     
+    public Flight findRandomFlight(String departureAirport) {
+
+        Flight flight = flightRepo.findRandomFlight(departureAirport);
+        if (flight == null) {
+            throw new RuntimeException("No flights available");
+    }
+    return flight;
+    }
 
 }

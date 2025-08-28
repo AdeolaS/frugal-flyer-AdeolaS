@@ -23,9 +23,16 @@ public class FlightController {
     public List<Flight> searchFlights(
             @RequestParam (defaultValue = "1500") double maxBudget,
             @RequestParam String departureAirport,
+            @RequestParam (required = false) String arrivalAirport,
             @RequestParam (required = false) String climate
             ) {
-        return flightService.searchFlights(maxBudget, departureAirport, climate);
+        return flightService.searchFlights(maxBudget, departureAirport, arrivalAirport, climate);
     }
+
+    @GetMapping("/surpriseMe")
+    public Flight findRandomFlight(@RequestParam String departureAirport) {
+        return flightService.findRandomFlight(departureAirport);
+    }
+    
 
 }

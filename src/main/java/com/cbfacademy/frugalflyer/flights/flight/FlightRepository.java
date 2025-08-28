@@ -27,14 +27,16 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
             "AND LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
             "AND (:arrivalAirport IS NULL OR LOWER(f.arrivalAirport.code) = LOWER(:arrivalAirport)) " +
             "AND (:climate IS NULL OR LOWER(f.arrivalAirport.destination.climate) = LOWER(:climate))" +
-            "AND (:departureDate IS NULL OR f.departureDate = :departureDate)"
+            "AND (:departureDate IS NULL OR f.departureDate = :departureDate) " +
+            "AND (:tag IS NULL OR :tag MEMBER OF f.arrivalAirport.destination.tags)"
            )
     public List<Flight> searchFlights(
         @Param ("maxBudget") double maxBudget,
         @Param ("departureAirport") String departureAirport,
         @Param ("arrivalAirport") String arrivalAirport,
         @Param ("climate") String climate,
-        @Param ("departureDate") LocalDate departureDate
+        @Param ("departureDate") LocalDate departureDate,
+        @Param("tag") String tag
     );
 
 

@@ -31,9 +31,10 @@ public class FlightController {
             @RequestParam String departureAirport,
             @RequestParam (required = false) String arrivalAirport,
             @RequestParam (required = false) String climate,
-            @RequestParam (required = false) LocalDate departureDate
+            @RequestParam (required = false) LocalDate departureDate,
+            @RequestParam (required = false) String tag
             ) {
-        return flightService.searchFlights(maxBudget, departureAirport, arrivalAirport, climate, departureDate);
+        return flightService.searchFlights(maxBudget, departureAirport, arrivalAirport, climate, departureDate, tag);
     }
 
     @GetMapping("/surpriseMe")

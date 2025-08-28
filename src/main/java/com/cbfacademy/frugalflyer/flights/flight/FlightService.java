@@ -25,7 +25,48 @@ public class FlightService {
         this.flightRepo = flightRepo;
     }
 
-    public List<Flight> searchFlights(double maxBudget, String departureAirport, String arrivalAirport, String climate, 
+    public List<Flight> searchFlightsUsingArrivalAirport(double maxBudget, String departureAirport, String arrivalAirport, 
+            LocalDate departureDate, Integer flexiDays) {
+        
+        LocalDate earliestDate = null;
+        LocalDate latestDate = null;
+
+        
+        if (departureDate != null && flexiDays != null) {
+            earliestDate = departureDate.minusDays(flexiDays);
+            latestDate = departureDate.plusDays(flexiDays);
+        } else if (departureDate != null) {
+            earliestDate = departureDate;
+            latestDate = departureDate;
+        }
+
+        List<Flight> flights = flightRepo.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, earliestDate, latestDate);
+        
+        if (flights.isEmpty()) {
+            throw new RuntimeException("No flights available");
+        }
+        
+        System.out.println("\n------------------------------------");
+        System.out.println("Criteria: ");
+        System.out.println("Maximum Budget = " + maxBudget + ".");
+        System.out.println("Departure Airport = " + departureAirport + ".");
+        
+        if (arrivalAirport != null) {
+            System.out.println("Arrival Airport = " + arrivalAirport + ".");
+        }
+        if (departureDate != null) {
+            System.out.println("Desired departure Date = " + departureDate + ".");
+        }
+        if (flexiDays != null) {
+            System.out.println("Number of flexi-days = " + flexiDays + ".");
+        }
+        System.out.println("\n" + flights.size() + " flight(s) found.");
+        System.out.println("------------------------------------");
+
+        return flights;
+    }
+
+        public List<Flight> searchFlightsUsingClimateAndTags(double maxBudget, String departureAirport, String climate, 
             LocalDate departureDate, Integer flexiDays, String tag) {
         
         LocalDate earliestDate = null;
@@ -40,7 +81,7 @@ public class FlightService {
             latestDate = departureDate;
         }
 
-        List<Flight> flights = flightRepo.searchFlights(maxBudget, departureAirport, arrivalAirport, climate, departureDate, earliestDate, latestDate, tag);
+        List<Flight> flights = flightRepo.searchFlightsUsingClimateAndTags(maxBudget, departureAirport, climate, departureDate, earliestDate, latestDate, tag);
         
         if (flights.isEmpty()) {
             throw new RuntimeException("No flights available");
@@ -51,9 +92,6 @@ public class FlightService {
         System.out.println("Maximum Budget = " + maxBudget + ".");
         System.out.println("Departure Airport = " + departureAirport + ".");
         
-        if (arrivalAirport != null) {
-            System.out.println("Arrival Airport = " + arrivalAirport + ".");
-        }
         if (climate != null) {
             System.out.println("Desired Climate = " + climate + ".");
         }

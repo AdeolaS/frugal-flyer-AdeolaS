@@ -24,20 +24,30 @@ public class FlightController {
         this.flightService = flightService;
     }
 
-    @GetMapping("/search")
-    public List<Flight> searchFlights(
+    @GetMapping("/search-via-airport")
+    public List<Flight> searchFlightsUsingArrivalAirport(
             @RequestParam (defaultValue = "1500") double maxBudget,
             @RequestParam String departureAirport,
             @RequestParam (required = false) String arrivalAirport,
+            @RequestParam (required = false) LocalDate departureDate,
+            @RequestParam (required = false) Integer flexiDays
+            ) {
+        return flightService.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, flexiDays);
+    }
+
+    @GetMapping("/search-via-climate-and-tags")
+    public List<Flight> searchFlightsUsingClimateAndTags(
+            @RequestParam (defaultValue = "1500") double maxBudget,
+            @RequestParam String departureAirport,
             @RequestParam (required = false) String climate,
             @RequestParam (required = false) LocalDate departureDate,
             @RequestParam (required = false) Integer flexiDays,
             @RequestParam (required = false) String tag
             ) {
-        return flightService.searchFlights(maxBudget, departureAirport, arrivalAirport, climate, departureDate, flexiDays, tag);
+        return flightService.searchFlightsUsingClimateAndTags(maxBudget, departureAirport, climate, departureDate, flexiDays, tag);
     }
 
-    @GetMapping("/surpriseMe")
+    @GetMapping("/surprise-me")
     public Flight findRandomFlight(@RequestParam String departureAirport) {
 
         try {

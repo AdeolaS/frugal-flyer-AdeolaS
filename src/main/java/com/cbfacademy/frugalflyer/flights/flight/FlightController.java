@@ -3,9 +3,13 @@ package com.cbfacademy.frugalflyer.flights.flight;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -26,14 +30,22 @@ public class FlightController {
             @RequestParam (defaultValue = "1500") double maxBudget,
             @RequestParam String departureAirport,
             @RequestParam (required = false) String arrivalAirport,
-            @RequestParam (required = false) String climate
+            @RequestParam (required = false) String climate,
+            @RequestParam (required = false) LocalDate departureDate
             ) {
-        return flightService.searchFlights(maxBudget, departureAirport, arrivalAirport, climate);
+        return flightService.searchFlights(maxBudget, departureAirport, arrivalAirport, climate, departureDate);
     }
 
     @GetMapping("/surpriseMe")
     public Flight findRandomFlight(@RequestParam String departureAirport) {
-        return flightService.findRandomFlight(departureAirport);
+
+        try {
+            Flight flight = flightService.findRandomFlight(departureAirport);
+            return flight;
+
+        } catch (RuntimeException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Flights found from departure airport: " + departureAirport, exception);
+        }
     }
     
 

@@ -1,5 +1,6 @@
 package com.cbfacademy.frugalflyer.flights.flight;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -18,19 +19,22 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
      * @param departureAirport the aiport which the plane will leave from
      * @param arrivalAirport the airport at which the plane will land
      * @param climate the climate of the destination
+     * @param departureDate
      * @return a list of flights that match the search specifications
      */
     @Query("SELECT f FROM Flight f " + 
             "WHERE f.price <= :maxBudget " +
             "AND LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
             "AND (:arrivalAirport IS NULL OR LOWER(f.arrivalAirport.code) = LOWER(:arrivalAirport)) " +
-            "AND (:climate IS NULL OR LOWER(f.arrivalAirport.destination.climate) = LOWER(:climate))"
+            "AND (:climate IS NULL OR LOWER(f.arrivalAirport.destination.climate) = LOWER(:climate))" +
+            "AND (:departureDate IS NULL OR f.departureDate = :departureDate)"
            )
     public List<Flight> searchFlights(
         @Param ("maxBudget") double maxBudget,
         @Param ("departureAirport") String departureAirport,
         @Param ("arrivalAirport") String arrivalAirport,
-        @Param ("climate") String climate
+        @Param ("climate") String climate,
+        @Param ("departureDate") LocalDate departureDate
     );
 
 

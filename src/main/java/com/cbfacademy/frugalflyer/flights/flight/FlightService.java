@@ -1,6 +1,7 @@
 package com.cbfacademy.frugalflyer.flights.flight;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -24,9 +25,15 @@ public class FlightService {
         this.flightRepo = flightRepo;
     }
 
-    public List<Flight> searchFlights(double maxBudget, String departureAirport, String arrivalAirport, String climate) {
+    public List<Flight> searchFlights(double maxBudget, String departureAirport, String arrivalAirport, String climate, LocalDate departureDate) {
         
-        return flightRepo.searchFlights(maxBudget, departureAirport, arrivalAirport, climate);
+        List<Flight> flights = flightRepo.searchFlights(maxBudget, departureAirport, arrivalAirport, climate, departureDate);
+        
+        if (flights.isEmpty()) {
+            throw new RuntimeException("No flights available");
+        }
+        
+        return flights;
     }
     
     public Flight findRandomFlight(String departureAirport) {
@@ -34,9 +41,9 @@ public class FlightService {
         Flight flight = flightRepo.findRandomFlight(departureAirport);
 
         if (flight == null) {
-            throw new RuntimeException("No flights available");
-    }
-    return flight;
+            throw new RuntimeException("No flights available from departure airport: " + departureAirport);
+        }
+        return flight;
     }
 
 }

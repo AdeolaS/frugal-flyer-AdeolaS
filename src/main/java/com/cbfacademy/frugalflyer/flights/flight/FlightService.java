@@ -19,9 +19,9 @@ public class FlightService {
         this.flightRepo = flightRepo;
     }
 
-    public List<Flight> searchFlights() {
+    public List<Flight> searchFlights(double maxBudget, String departureAirport, String climate) {
         
-        return flightRepo.searchFlights();
+        return flightRepo.searchFlights(maxBudget, departureAirport, climate);
     }
     
 

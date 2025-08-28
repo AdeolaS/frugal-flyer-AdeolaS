@@ -20,8 +20,12 @@ public class FlightController {
     }
 
     @GetMapping("/search")
-    public List<Flight> searchFlights() {
-        return flightService.searchFlights();
+    public List<Flight> searchFlights(
+            @RequestParam (defaultValue = "1500") double maxBudget,
+            @RequestParam String departureAirport,
+            @RequestParam (required = false) String climate
+            ) {
+        return flightService.searchFlights(maxBudget, departureAirport, climate);
     }
 
 }

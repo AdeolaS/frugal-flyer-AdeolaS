@@ -27,7 +27,7 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
             "AND LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
             "AND (:arrivalAirport IS NULL OR LOWER(f.arrivalAirport.code) = LOWER(:arrivalAirport)) " +
             "AND (:climate IS NULL OR LOWER(f.arrivalAirport.destination.climate) = LOWER(:climate))" +
-            "AND (:departureDate IS NULL OR f.departureDate = :departureDate) " +
+            "AND (:departureDate IS NULL OR f.departureDate BETWEEN :earliestDate AND :latestDate)" +
             "AND (:tag IS NULL OR :tag MEMBER OF f.arrivalAirport.destination.tags)"
            )
     public List<Flight> searchFlights(
@@ -36,7 +36,9 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
         @Param ("arrivalAirport") String arrivalAirport,
         @Param ("climate") String climate,
         @Param ("departureDate") LocalDate departureDate,
-        @Param("tag") String tag
+        @Param ("earliestDate") LocalDate earliestDate,
+        @Param ("latestDate") LocalDate latestDate,
+        @Param ("tag") String tag
     );
 
 

@@ -25,9 +25,22 @@ public class FlightService {
         this.flightRepo = flightRepo;
     }
 
-    public List<Flight> searchFlights(double maxBudget, String departureAirport, String arrivalAirport, String climate, LocalDate departureDate, String tag) {
+    public List<Flight> searchFlights(double maxBudget, String departureAirport, String arrivalAirport, String climate, 
+            LocalDate departureDate, Integer flexiDays, String tag) {
         
-        List<Flight> flights = flightRepo.searchFlights(maxBudget, departureAirport, arrivalAirport, climate, departureDate, tag);
+        LocalDate earliestDate = null;
+        LocalDate latestDate = null;
+
+        
+        if (departureDate != null && flexiDays != null) {
+            earliestDate = departureDate.minusDays(flexiDays);
+            latestDate = departureDate.plusDays(flexiDays);
+        } else if (departureDate != null) {
+            earliestDate = departureDate;
+            latestDate = departureDate;
+        }
+
+        List<Flight> flights = flightRepo.searchFlights(maxBudget, departureAirport, arrivalAirport, climate, departureDate, earliestDate, latestDate, tag);
         
         if (flights.isEmpty()) {
             throw new RuntimeException("No flights available");
@@ -43,6 +56,12 @@ public class FlightService {
         }
         if (climate != null) {
             System.out.println("Desired Climate = " + climate + ".");
+        }
+        if (departureDate != null) {
+            System.out.println("Desired departure Date = " + departureDate + ".");
+        }
+        if (flexiDays != null) {
+            System.out.println("Number of flexi-days = " + flexiDays + ".");
         }
         if (tag != null) {
             System.out.println("Desired Destination Tag = " + tag + ".");

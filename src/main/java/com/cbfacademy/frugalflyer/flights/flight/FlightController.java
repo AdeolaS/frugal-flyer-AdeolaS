@@ -8,7 +8,9 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+/**
+ * Controller class to implement flights API endpoints.
+ */
 @RestController
 @RequestMapping("/api/flights")
 public class FlightController {

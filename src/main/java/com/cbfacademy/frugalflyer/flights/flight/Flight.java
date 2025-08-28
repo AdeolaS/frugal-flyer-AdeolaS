@@ -46,6 +46,13 @@ public class Flight {
      */
     private LocalDate departureDate;
 
+    /**
+	 * Parameterised constructor to create an Flight with specified details.
+     * @param departureAirport Airport that plane leaves from
+     * @param arrivalAirport Airport that plane arrives at
+     * @param price Price of Flight
+     * @param departureDate Date the flight departs from departure airport
+	 */
     public Flight(Airport departureAirport, Airport arrivalAirport, double price, LocalDate departureDate) {
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
@@ -53,6 +60,9 @@ public class Flight {
         this.departureDate = departureDate;
     }
 
+    /**
+	 * Default no-params constructor
+	 */
     public Flight() {
         this(null, null, 0.00, null);
     }

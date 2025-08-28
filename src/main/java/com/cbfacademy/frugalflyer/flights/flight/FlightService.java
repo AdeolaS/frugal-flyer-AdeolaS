@@ -15,6 +15,11 @@ public class FlightService {
     
     private final FlightRepository flightRepo;
 
+     /**
+     * Constructor for FlightService.
+     *
+     * @param flightRepo the FlightRepository to be used for data persistence
+     */
     public FlightService(FlightRepository flightRepo) {
         this.flightRepo = flightRepo;
     }
@@ -27,6 +32,7 @@ public class FlightService {
     public Flight findRandomFlight(String departureAirport) {
 
         Flight flight = flightRepo.findRandomFlight(departureAirport);
+
         if (flight == null) {
             throw new RuntimeException("No flights available");
     }

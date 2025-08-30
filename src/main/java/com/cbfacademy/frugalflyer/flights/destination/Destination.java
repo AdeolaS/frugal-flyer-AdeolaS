@@ -107,7 +107,7 @@ public class Destination {
 
     /**
      * Sets the country of Destination
-     * @param city name of the Destination's country
+     * @param country name of the Destination's country
      */
     public void setCountry(String country) {
         this.country = country;

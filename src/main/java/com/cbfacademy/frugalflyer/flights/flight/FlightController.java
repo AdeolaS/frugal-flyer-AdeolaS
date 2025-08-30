@@ -3,12 +3,10 @@ package com.cbfacademy.frugalflyer.flights.flight;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -20,6 +18,10 @@ public class FlightController {
     
     private final FlightService flightService;
 
+    /**
+     * Contructor for FlightController
+     * @param flightService Service class that handles business logic
+     */
     public FlightController(FlightService flightService) {
         this.flightService = flightService;
     }
@@ -66,6 +68,11 @@ public class FlightController {
         return flightService.searchFlightsUsingClimateAndTags(maxBudget, departureAirport, climate, departureDate, flexiDays, tag);
     }
 
+    /**
+     * Finds a single random flight that leaves from the specified airport
+     * @param departureAirport Airport that the flight will depart from
+     * @return random flight
+     */
     @GetMapping("/surprise-me")
     public Flight findRandomFlight(@RequestParam String departureAirport) {
 

@@ -18,7 +18,7 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
      * @param maxBudget the maximum price for a flight
      * @param departureAirport the aiport which the plane will leave from
      * @param arrivalAirport the airport at which the plane will land
-     * @param departureDate
+     * @param departureDate departure date of flight
      * @return a list of flights that match the search specifications
      */
     @Query("SELECT f FROM Flight f " + 
@@ -42,8 +42,8 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
      * @param maxBudget the maximum price for a flight
      * @param departureAirport the aiport which the plane will leave from
      * @param climate the climate of the destination
-     * @param departureDate
-     * @param tag
+     * @param departureDate departure date of flight
+     * @param tag descriptive tag of type of holiday
      * @return a list of flights that match the search specifications
      */
     @Query("SELECT f FROM Flight f " + 

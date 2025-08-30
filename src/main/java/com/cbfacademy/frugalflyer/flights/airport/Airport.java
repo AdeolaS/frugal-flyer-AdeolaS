@@ -57,7 +57,7 @@ public class Airport {
 
     /**
      * Set the code of the airport.
-     * @param code
+     * @param code IATA code of airport
      */
     public void setCode(String code) {
         this.code = code;

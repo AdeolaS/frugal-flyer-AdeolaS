@@ -25,8 +25,9 @@ public class Airport {
 	 * The name of the airport.
 	 */
     private String name;
-
-
+    /**
+     * The destination of the airport
+     */
     @ManyToOne
     @JoinColumn(name = "destination_id")
     // To prevent infinite recursion caused by bidirectional relationship.
@@ -42,6 +43,12 @@ public class Airport {
     }
 
  
+    /**
+     * Parameterised Constructor of Airport
+     * @param code unique IATA code of airport
+     * @param name Name of Airport
+     * @param destination destination of Airport
+     */
     public Airport(String code, String name, Destination destination) {
         this.code = code;
         this.name = name;
@@ -83,10 +90,18 @@ public class Airport {
         return this.name;
     }
 
+    /**
+     * Gets the destination of the airport
+     * @return airport's destination
+     */
     public Destination getDestination() {
         return this.destination;
     }
 
+    /**
+     * Sets the destination of the airport
+     * @param destination airport's destination
+     */
     public void setDestination(Destination destination) {
         this.destination = destination;
     }

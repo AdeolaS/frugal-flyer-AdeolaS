@@ -24,9 +24,18 @@ public class FlightController {
         this.flightService = flightService;
     }
 
+    /**
+    * Retrieves flights, applying filters using given paramenters
+    * @param maxBudget Maximum cost of flight
+    * @param departureAirport Airport that the flight will depart from
+    * @param arrivalAirport Airport that the flight will arrive at
+    * @param departureDate Date that the flight will depart from the departure airport
+    * @param flexiDays Number of flexible days to be subtracted and added from the departure date to allow a range of departure dates
+    * @return List of flights that match the given search criteria
+    */
     @GetMapping("/search-via-airport")
     public List<Flight> searchFlightsUsingArrivalAirport(
-            @RequestParam (defaultValue = "1500") double maxBudget,
+            @RequestParam (defaultValue = "99999") double maxBudget,
             @RequestParam String departureAirport,
             @RequestParam (required = false) String arrivalAirport,
             @RequestParam (required = false) LocalDate departureDate,
@@ -35,9 +44,19 @@ public class FlightController {
         return flightService.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, flexiDays);
     }
 
+    /**
+    * Retrieves flights, applying filters using given paramenters
+    * @param maxBudget Maximum cost of flight
+    * @param departureAirport Airport that the flight will depart from
+    * @param climate Climate of the destination that the flight will arrive at
+    * @param departureDate Date that the flight will depart from the departure airport
+    * @param flexiDays Number of flexible days to be subtracted and added from the departure date to allow a range of departure dates
+    * @param tag Descriptive tag that describes the type of holiday desired
+    * @return List of flights that match the given search criteria
+    */
     @GetMapping("/search-via-climate-and-tags")
     public List<Flight> searchFlightsUsingClimateAndTags(
-            @RequestParam (defaultValue = "1500") double maxBudget,
+            @RequestParam (defaultValue = "99999") double maxBudget,
             @RequestParam String departureAirport,
             @RequestParam (required = false) String climate,
             @RequestParam (required = false) LocalDate departureDate,
@@ -50,13 +69,8 @@ public class FlightController {
     @GetMapping("/surprise-me")
     public Flight findRandomFlight(@RequestParam String departureAirport) {
 
-        try {
-            Flight flight = flightService.findRandomFlight(departureAirport);
-            return flight;
-
-        } catch (RuntimeException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Flights found from departure airport: " + departureAirport, exception);
-        }
+        Flight flight = flightService.findRandomFlight(departureAirport);
+        return flight;
     }
     
 

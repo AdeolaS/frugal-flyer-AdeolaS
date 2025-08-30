@@ -45,7 +45,7 @@ public class FlightController {
     */
     @GetMapping("/search-via-airport")
     public List<Flight> searchFlightsUsingArrivalAirport(
-            @RequestParam (defaultValue = "99999") double maxBudget,
+            @RequestParam (defaultValue = "999999") double maxBudget,
             @RequestParam String departureAirport,
             @RequestParam (required = false) String arrivalAirport,
             @RequestParam (required = false) LocalDate departureDate,
@@ -75,7 +75,7 @@ public class FlightController {
     */
     @GetMapping("/search-via-climate-and-tags")
     public List<Flight> searchFlightsUsingClimateAndTags(
-            @RequestParam (defaultValue = "99999") double maxBudget,
+            @RequestParam (defaultValue = "999999") double maxBudget,
             @RequestParam String departureAirport,
             @RequestParam (required = false) String climate,
             @RequestParam (required = false) LocalDate departureDate,
@@ -106,8 +106,20 @@ public class FlightController {
     @GetMapping("/surprise-me")
     public Flight findRandomFlight(@RequestParam String departureAirport) {
 
-        Flight flight = flightService.findRandomFlight(departureAirport);
-        return flight;
+        try {
+            return flightService.findRandomFlight(departureAirport);
+        } catch (AirportNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping("/cheap-flights")
+    public List<Flight> findCheapFlightAnomalies(
+        @RequestParam String departureAirport, 
+        @RequestParam String arrivalAirport,
+        @RequestParam (defaultValue = "0.5") double threshold
+        ) {
+        return flightService.findCheapFlightAnomalies(departureAirport, arrivalAirport, threshold);
     }
     
 

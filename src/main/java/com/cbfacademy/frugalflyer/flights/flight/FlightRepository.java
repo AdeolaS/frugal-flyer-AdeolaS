@@ -25,7 +25,8 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
             "WHERE f.price <= :maxBudget " +
             "AND LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
             "AND (:arrivalAirport IS NULL OR LOWER(f.arrivalAirport.code) = LOWER(:arrivalAirport)) " +
-            "AND (:departureDate IS NULL OR f.departureDate BETWEEN :earliestDate AND :latestDate)"
+            "AND (:departureDate IS NULL OR f.departureDate BETWEEN :earliestDate AND :latestDate)" +
+            "ORDER BY f.price ASC"
            )
     public List<Flight> searchFlightsUsingArrivalAirport(
         @Param ("maxBudget") double maxBudget,
@@ -49,9 +50,10 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
     @Query("SELECT f FROM Flight f " + 
             "WHERE f.price <= :maxBudget " +
             "AND LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
-            "AND (:climate IS NULL OR LOWER(f.arrivalAirport.destination.climate) = LOWER(:climate))" +
+            "AND (:climate IS NULL OR LOWER(f.arrivalAirport.destination.climate) LIKE LOWER(CONCAT('%', :climate, '%')))" +
             "AND (:departureDate IS NULL OR f.departureDate BETWEEN :earliestDate AND :latestDate)" +
-            "AND (:tag IS NULL OR :tag MEMBER OF f.arrivalAirport.destination.tags)"
+            "AND (:tag IS NULL OR :tag MEMBER OF f.arrivalAirport.destination.tags)" +
+            "ORDER BY f.price ASC"
            )
     public List<Flight> searchFlightsUsingClimateAndTags(
         @Param ("maxBudget") double maxBudget,
@@ -77,4 +79,14 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
         @Param ("departureAirport") String departureAirport
     );
 
+    //public List<Flight> findByDepartureAirportAndArrivalAirport(String departureAirport, String arrivalAirport);
+
+    @Query("SELECT f FROM Flight f " + 
+            "WHERE LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
+            "AND LOWER(f.arrivalAirport.code) = LOWER(:arrivalAirport) "
+           )
+    public List<Flight> searchFlightsUsingAirportsForCalculation(
+        @Param ("departureAirport") String departureAirport,
+        @Param ("arrivalAirport") String arrivalAirport
+    );
 }

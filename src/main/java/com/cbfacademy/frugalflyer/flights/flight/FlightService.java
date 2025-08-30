@@ -2,10 +2,12 @@ package com.cbfacademy.frugalflyer.flights.flight;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.cbfacademy.frugalflyer.flights.airport.Airport;
 import com.cbfacademy.frugalflyer.flights.airport.AirportRepository;
 import com.cbfacademy.frugalflyer.flights.customExceptions.AirportNotFoundException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidClimateStringException;
@@ -196,11 +198,55 @@ public class FlightService {
      * @param departureAirport Airport that the flight will depart from
      * @return random flight
      */
-    public Flight findRandomFlight(String departureAirport) {
+    public Flight findRandomFlight(String departureAirport) throws AirportNotFoundException {
 
-        Flight flight = flightRepo.findRandomFlight(departureAirport);
+        if (!airportRepo.existsById(departureAirport)) {
+            throw new AirportNotFoundException("Invalid Airport code: " + departureAirport + ". Please insert an airport that is recognised by this application.");
+        }
 
-        return flight;
+        return flightRepo.findRandomFlight(departureAirport);
+    }
+
+    public List<Flight> findCheapFlightAnomalies(String departureAirport, String arrivalAirport, double threshold) {
+
+        List<Double> prices = new ArrayList<>();
+
+        List<Flight> flights = flightRepo.searchFlightsUsingAirportsForCalculation(departureAirport, arrivalAirport);
+        List<Flight> cheapFlights = new ArrayList<>();
+
+        double sumOfFlightPrices = 0.0;
+        double sumOfDistanceToMeanSquared = 0.0;
+
+        //calculate mean
+        for (Flight flight : flights) {
+            prices.add(flight.getPrice());
+            sumOfFlightPrices += flight.getPrice();
+        }
+        double mean = sumOfFlightPrices / flights.size();
+
+        //calculate standard deviation
+        for (double price : prices) {
+            sumOfDistanceToMeanSquared += Math.pow(mean-price, 2);
+        }
+        double standardDeviation = Math.sqrt(sumOfDistanceToMeanSquared/flights.size());
+
+        //calculate zScore to be used to flag anomalies and add them to cheap flights list
+        for (Flight flight : flights) {
+            double zScore = (flight.getPrice() - mean) / standardDeviation;
+            if (zScore < -threshold) {
+                cheapFlights.add(flight);
+            }
+        }
+
+        
+        System.out.println("\n------------------------------------");
+        System.out.println(flights.size() + " flight(s) found with matching departure and arrvial airports.");
+        System.out.println("Average price of flights: " + mean);
+
+        System.out.println(cheapFlights.size() + " cheap flights found.");
+        System.out.println("------------------------------------");
+
+        return cheapFlights;
     }
 
 }

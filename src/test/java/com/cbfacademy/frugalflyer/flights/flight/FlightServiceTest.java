@@ -7,11 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.cbfacademy.frugalflyer.flights.airport.Airport;
+import com.cbfacademy.frugalflyer.flights.airport.AirportRepository;
 
 public class FlightServiceTest {
     
     private FlightService flightService;
     private FlightRepository flightRepo;
+    private AirportRepository airportRepo;
     private Flight flight1, flight2, flight3;
     private Airport depatureAirport1, depatureAirport2;
     private Airport arrivalAirport1, arrivalAirport2;
@@ -19,7 +21,7 @@ public class FlightServiceTest {
     @BeforeEach
     public void setUp() {
         flightRepo = Mockito.mock(FlightRepository.class);
-        flightService = new FlightService(flightRepo);
+        flightService = new FlightService(flightRepo, airportRepo);
 
         depatureAirport1 = new Airport();
         depatureAirport2 = new Airport();

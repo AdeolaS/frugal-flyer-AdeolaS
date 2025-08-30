@@ -5,13 +5,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.cbfacademy.frugalflyer.flights.customExceptions.AirportNotFoundException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidDateException;
+import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidNumberException;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -53,6 +54,10 @@ public class FlightController {
             return flightService.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, flexiDays);
         } catch(InvalidDateException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch(AirportNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch(InvalidNumberException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -75,7 +80,12 @@ public class FlightController {
             @RequestParam (required = false) Integer flexiDays,
             @RequestParam (required = false) String tag
             ) {
-        return flightService.searchFlightsUsingClimateAndTags(maxBudget, departureAirport, climate, departureDate, flexiDays, tag);
+        
+        try {
+            return flightService.searchFlightsUsingClimateAndTags(maxBudget, departureAirport, climate, departureDate, flexiDays, tag);
+        } catch(InvalidDateException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     /**

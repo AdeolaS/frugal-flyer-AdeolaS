@@ -119,7 +119,14 @@ public class FlightController {
         @RequestParam String arrivalAirport,
         @RequestParam (defaultValue = "0.5") double threshold
         ) {
-        return flightService.findCheapFlightAnomalies(departureAirport, arrivalAirport, threshold);
+        
+        try{
+            return flightService.findCheapFlightAnomalies(departureAirport, arrivalAirport, threshold);
+        } catch(AirportNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch(InvalidNumberException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
     
 

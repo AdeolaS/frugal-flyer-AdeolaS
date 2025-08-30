@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.cbfacademy.frugalflyer.flights.airport.Airport;
 import com.cbfacademy.frugalflyer.flights.airport.AirportRepository;
 import com.cbfacademy.frugalflyer.flights.customExceptions.AirportNotFoundException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidClimateStringException;
@@ -207,11 +206,39 @@ public class FlightService {
         return flightRepo.findRandomFlight(departureAirport);
     }
 
-    public List<Flight> findCheapFlightAnomalies(String departureAirport, String arrivalAirport, double threshold) {
+    /**
+     * Finds flight price anomalies using the z-score method
+     * @param departureAirport IATA code of departure airport
+     * @param arrivalAirport IATA code of arrival airport
+     * @param threshold threshold to determine how high the zscore needs to be for a price to be classed as an anomaly
+     * @return list of flights with price anomalies
+     */
+    public List<Flight> findCheapFlightAnomalies(String departureAirport, String arrivalAirport, double threshold)
+        throws AirportNotFoundException, InvalidNumberException {
+
+        if (!airportRepo.existsById(departureAirport)) {
+            throw new AirportNotFoundException("Invalid Airport code: " + departureAirport + ". Please insert an airport that is recognised by this application.");
+        }
+        if (!airportRepo.existsById(arrivalAirport)) {
+            throw new AirportNotFoundException("Invalid Airport code: " + arrivalAirport + ". Please insert an airport that is recognised by this application.");
+        }
+        if (threshold < 0.0) {
+            throw new InvalidNumberException("The threshold cannot be a negative value.");
+        }
 
         List<Double> prices = new ArrayList<>();
 
         List<Flight> flights = flightRepo.searchFlightsUsingAirportsForCalculation(departureAirport, arrivalAirport);
+
+        if (flights.size() < 3) {
+            System.out.println("\n------------------------------------");
+            System.out.println("There are not enough flights between these two airports to find cheap flight data.");
+            System.out.println("Returning all suitable flights.");
+            System.out.println("------------------------------------");
+
+            return flights;
+        }
+
         List<Flight> cheapFlights = new ArrayList<>();
 
         double sumOfFlightPrices = 0.0;

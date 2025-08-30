@@ -3,10 +3,15 @@ package com.cbfacademy.frugalflyer.flights.flight;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidDateException;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -43,7 +48,12 @@ public class FlightController {
             @RequestParam (required = false) LocalDate departureDate,
             @RequestParam (required = false) Integer flexiDays
             ) {
-        return flightService.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, flexiDays);
+
+        try {
+            return flightService.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, flexiDays);
+        } catch(InvalidDateException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     /**

@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidDateException;
+
 
 
 /**
@@ -18,6 +20,7 @@ public class FlightService {
 
     private LocalDate earliestDate = null;
     private LocalDate latestDate = null;
+    private LocalDate today = LocalDate.now();
 
     /**
     * Constructor for FlightService.
@@ -26,6 +29,33 @@ public class FlightService {
     */
     public FlightService(FlightRepository flightRepo) {
         this.flightRepo = flightRepo;
+    }
+
+    /**
+     * Helper method to calculate the desired departure date range
+     * If departure date and flexiday value have been supplied, subtracts and adds the flexidays from and to the departure date to find range of dates.
+     * If earliest date is before today's date, the value is set to today's date.
+     * If only departure date is supplied, set the range of dates to that departureDate value.
+     * @param departureDate Date that the flight will depart from the departure airport
+     * @param flexiDays Number of flexible days to be subtracted and added from the departure date to allow a range of departure dates
+     * @return Range of acceptable departure dates.
+     */
+    private LocalDate[] setDateRange(LocalDate departureDate, Integer flexiDays) {
+
+        if (departureDate != null && flexiDays != null) {
+
+            latestDate = departureDate.plusDays(flexiDays);
+            earliestDate = departureDate.minusDays(flexiDays);
+            if (earliestDate.isBefore(today)) {
+                earliestDate = today;
+            }
+            
+        } else if (departureDate != null) {
+            earliestDate = departureDate;
+            latestDate = departureDate;
+        }
+
+        return new LocalDate[] {earliestDate,latestDate};
     }
 
     /**
@@ -38,21 +68,18 @@ public class FlightService {
     * @return List of flights that match the given search criteria
     */
     public List<Flight> searchFlightsUsingArrivalAirport(double maxBudget, String departureAirport, String arrivalAirport, 
-            LocalDate departureDate, Integer flexiDays) {
+            LocalDate departureDate, Integer flexiDays) throws InvalidDateException {
         
         List<Flight> flights;
+        LocalDate[] dateRange;
 
-        // If departure date and flexiday value have been supplied, subtract and add the flexidays from the departure date to find range of dates.
-        // If only departure date is supplied, set the rnage of dates to that departureDate value.
-        if (departureDate != null && flexiDays != null) {
-            earliestDate = departureDate.minusDays(flexiDays);
-            latestDate = departureDate.plusDays(flexiDays);
-        } else if (departureDate != null) {
-            earliestDate = departureDate;
-            latestDate = departureDate;
+        if (today.isAfter(departureDate)) {
+            throw new InvalidDateException("Departure date must be today's date or later.");
         }
 
-        flights = flightRepo.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, earliestDate, latestDate);
+        dateRange = setDateRange(departureDate, flexiDays);
+
+        flights = flightRepo.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, dateRange[0], dateRange[1]);
         
         //A series of print messages that show to specified criteria
         System.out.println("\n------------------------------------");
@@ -93,8 +120,13 @@ public class FlightService {
         // If departure date and flexiday value have been supplied, subtract and add the flexidays from the departure date to find range of dates.
         // If only departure date is supplied, set the rnage of dates to that departureDate value.
         if (departureDate != null && flexiDays != null) {
+
             earliestDate = departureDate.minusDays(flexiDays);
             latestDate = departureDate.plusDays(flexiDays);
+
+            if (earliestDate.isBefore(today)) {
+                earliestDate = today;
+            }
         } else if (departureDate != null) {
             earliestDate = departureDate;
             latestDate = departureDate;

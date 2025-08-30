@@ -12,6 +12,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * The Flight class the represents flight entity with details such as ID, departureAirport, arrivalAirport, price and departureDate.
+ */
 @Entity
 @Table(name = "flights")
 public class Flight {
@@ -76,18 +79,10 @@ public class Flight {
     }
 
     /**
-     * Sets the ID of the flight.
-     * @param id the flight ID to set.
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
      * Gets the origin airport of the flight.
      * @return the origin airport.
      */
-    public Airport getdepartureAirport() {
+    public Airport getDepartureAirport() {
         return departureAirport;
     }
 
@@ -95,7 +90,7 @@ public class Flight {
      * Sets the origin airport of the flight.
      * @param departureAirport the origin airport to set.
      */
-    public void setdepartureAirport(Airport departureAirport) {
+    public void setDepartureAirport(Airport departureAirport) {
         this.departureAirport = departureAirport;
     }
 
@@ -103,7 +98,7 @@ public class Flight {
      * Gets the destination airport of the flight.
      * @return the destination airport.
      */
-    public Airport getarrivalAirport() {
+    public Airport getArrivalAirport() {
         return arrivalAirport;
     }
 
@@ -111,7 +106,7 @@ public class Flight {
      * Sets the destination airport of the flight.
      * @param arrivalAirport the destination airport to set.
      */
-    public void setarrivalAirport(Airport arrivalAirport) {
+    public void setArrivalAirport(Airport arrivalAirport) {
         this.arrivalAirport = arrivalAirport;
     }
 

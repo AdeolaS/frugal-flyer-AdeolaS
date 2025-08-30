@@ -12,11 +12,12 @@ import com.cbfacademy.frugalflyer.flights.airport.Airport;
 
 @DisplayName(value = "Destination Test Suite")
 public class DestinationTest {
-    Destination destination;
-    Airport heathrow;
-    Airport gatwick;
-    List<String> tagsList;
-    List<Airport> airportsList;
+    
+    private Destination destination;
+    private Airport heathrow;
+    private Airport gatwick;
+    private List<String> tagsList;
+    private List<Airport> airportsList;
     
     @BeforeEach
     public void setup() {

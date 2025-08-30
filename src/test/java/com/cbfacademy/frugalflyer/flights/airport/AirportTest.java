@@ -11,7 +11,7 @@ import com.cbfacademy.frugalflyer.flights.destination.Destination;
 @DisplayName(value = "Airport Test Suite")
 public class AirportTest {
     private Airport airport;
-    Destination london;
+    private Destination london;
 
     @BeforeEach
     public void setup() {

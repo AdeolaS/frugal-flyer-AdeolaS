@@ -20,17 +20,17 @@ public class FlightServiceTest {
 
     @BeforeEach
     public void setUp() {
-        flightRepo = Mockito.mock(FlightRepository.class);
-        flightService = new FlightService(flightRepo, airportRepo);
+        // flightRepo = Mockito.mock(FlightRepository.class);
+        // flightService = new FlightService(flightRepo, airportRepo);
 
-        depatureAirport1 = new Airport();
-        depatureAirport2 = new Airport();
-        arrivalAirport1 = new Airport();
-        arrivalAirport2 = new Airport();
+        // depatureAirport1 = new Airport();
+        // depatureAirport2 = new Airport();
+        // arrivalAirport1 = new Airport();
+        // arrivalAirport2 = new Airport();
 
-        flight1 = new Flight(depatureAirport1, arrivalAirport1, 250.49, LocalDate.of(2026, 02, 25));
-        flight2 = new Flight(depatureAirport2, arrivalAirport2, 499.99, LocalDate.of(2026, 01, 28));
-        flight3 = new Flight(depatureAirport1, arrivalAirport2, 99.99, LocalDate.of(2026, 03, 8));
+        // flight1 = new Flight(depatureAirport1, arrivalAirport1, 250.49, LocalDate.of(2026, 02, 25));
+        // flight2 = new Flight(depatureAirport2, arrivalAirport2, 499.99, LocalDate.of(2026, 01, 28));
+        // flight3 = new Flight(depatureAirport1, arrivalAirport2, 99.99, LocalDate.of(2026, 03, 8));
 
         
     }

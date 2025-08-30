@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.cbfacademy.frugalflyer.flights.customExceptions.AirportNotFoundException;
+import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidClimateStringException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidDateException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidNumberException;
+import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidTagStringException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -85,6 +87,14 @@ public class FlightController {
             return flightService.searchFlightsUsingClimateAndTags(maxBudget, departureAirport, climate, departureDate, flexiDays, tag);
         } catch(InvalidDateException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch(AirportNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch(InvalidNumberException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch(InvalidClimateStringException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch(InvalidTagStringException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 

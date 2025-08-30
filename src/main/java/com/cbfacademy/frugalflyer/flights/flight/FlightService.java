@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.cbfacademy.frugalflyer.flights.airport.AirportRepository;
 import com.cbfacademy.frugalflyer.flights.customExceptions.AirportNotFoundException;
+import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidClimateStringException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidDateException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidNumberException;
+import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidTagStringException;
+import com.cbfacademy.frugalflyer.flights.destination.DestinationRepository;
 
 
 
@@ -21,6 +24,7 @@ public class FlightService {
     
     private final FlightRepository flightRepo;
     private final AirportRepository airportRepo;
+    private final DestinationRepository destinationRepo;
 
     private LocalDate earliestDate = null;
     private LocalDate latestDate = null;
@@ -39,9 +43,10 @@ public class FlightService {
     * @param flightRepo the FlightRepository to be used for data persistence
     * @param airportRepo the AirportRepository to be used for data persistence
     */
-    public FlightService(FlightRepository flightRepo, AirportRepository airportRepo) {
+    public FlightService(FlightRepository flightRepo, AirportRepository airportRepo, DestinationRepository destinationRepo) {
         this.flightRepo = flightRepo;
         this.airportRepo = airportRepo;
+        this.destinationRepo = destinationRepo;
     }
 
     /**
@@ -135,11 +140,27 @@ public class FlightService {
     * @param tag Descriptive tag that describes the type of holiday desired
     * @return List of flights that match the given search criteria
     */
-    public List<Flight> searchFlightsUsingClimateAndTags(double maxBudget, String departureAirport, String climate, 
-            LocalDate departureDate, Integer flexiDays, String tag) throws InvalidDateException {
+    public List<Flight> searchFlightsUsingClimateAndTags(double maxBudget, String departureAirport, String climate, LocalDate departureDate, Integer flexiDays, String tag)
+            throws InvalidDateException, InvalidNumberException, AirportNotFoundException, InvalidClimateStringException, InvalidTagStringException {
  
+        // Error handling that checks that input is valid.
         if (departureDate != null && today.isAfter(departureDate)) {
             throw new InvalidDateException("Departure date must be today's date or later.");
+        }
+        if (!airportRepo.existsById(departureAirport)) {
+            throw new AirportNotFoundException("Invalid Airport code: " + departureAirport + ". Please insert an airport that is recognised by this application.");
+        }
+        if (maxBudget < 0.0) {
+            throw new InvalidNumberException("The Maximum Budget cannot be a negative value.");
+        }
+        if (flexiDays !=null && flexiDays < 0.0) {
+            throw new InvalidNumberException("The number of flexidays cannot be a negative value.");
+        }
+        if (climate != null && !destinationRepo.existsByClimate(climate)) {
+            throw new InvalidClimateStringException("Provided climate '" + climate + "'is not available. Please check the spelling, or input another climate type.");
+        }
+        if (tag != null && !destinationRepo.existsByTags(tag)) {
+            throw new InvalidTagStringException("Provided tag '" + tag + "' is not available. Please check the spelling, or try inputting another tag.");
         }
 
         dateRange = setDateRange(departureDate, flexiDays);

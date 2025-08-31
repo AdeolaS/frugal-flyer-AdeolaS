@@ -14,6 +14,7 @@ import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidDateException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidNumberException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidTagStringException;
 import com.cbfacademy.frugalflyer.flights.destination.DestinationRepository;
+import com.cbfacademy.frugalflyer.flights.utility.FlightsUtilityClass;
 
 
 
@@ -51,33 +52,6 @@ public class FlightService {
     }
 
     /**
-     * Helper method to calculate the desired departure date range
-     * If departure date and flexiday value have been supplied, subtracts and adds the flexidays from and to the departure date to find range of dates.
-     * If earliest date is before today's date, the value is set to today's date.
-     * If only departure date is supplied, set the range of dates to that departureDate value.
-     * @param departureDate Date that the flight will depart from the departure airport
-     * @param flexiDays Number of flexible days to be subtracted and added from the departure date to allow a range of departure dates
-     * @return Range of acceptable departure dates.
-     */
-    private LocalDate[] setDateRange(LocalDate departureDate, Integer flexiDays) {
-
-        if (departureDate != null && flexiDays != null) {
-
-            latestDate = departureDate.plusDays(flexiDays);
-            earliestDate = departureDate.minusDays(flexiDays);
-            if (earliestDate.isBefore(today)) {
-                earliestDate = today;
-            }
-            
-        } else if (departureDate != null) {
-            earliestDate = departureDate;
-            latestDate = departureDate;
-        }
-
-        return new LocalDate[] {earliestDate,latestDate};
-    }
-
-    /**
     * Retrieves flights, applying filters using given paramenters
     * @param maxBudget Maximum cost of flight
     * @param departureAirport Airport that the flight will depart from
@@ -107,9 +81,10 @@ public class FlightService {
         }
 
         //Set date range using helper function, then search repo for flights that satisfy search requirements.
-        dateRange = setDateRange(departureDate, flexiDays);
-        flights = flightRepo.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, dateRange[0], dateRange[1]);
-        
+        dateRange = FlightsUtilityClass.setDateRange(departureDate, flexiDays);
+        earliestDate = dateRange[0];
+        latestDate = dateRange[1];
+        flights = flightRepo.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, earliestDate, latestDate);
         //A series of print messages that show the specified criteria
         System.out.println("\n------------------------------------");
         System.out.println("Criteria: ");
@@ -164,9 +139,11 @@ public class FlightService {
             throw new InvalidTagStringException("Provided tag '" + tag + "' is not available. Please check the spelling, or try inputting another tag.");
         }
 
-        dateRange = setDateRange(departureDate, flexiDays);
+        dateRange = FlightsUtilityClass.setDateRange(departureDate, flexiDays);
+        earliestDate = dateRange[0];
+        latestDate = dateRange[1];
 
-        flights = flightRepo.searchFlightsUsingClimateAndTags(maxBudget, departureAirport, climate, departureDate, dateRange[0], dateRange[1], tag);
+        flights = flightRepo.searchFlightsUsingClimateAndTags(maxBudget, departureAirport, climate, departureDate, earliestDate, latestDate, tag);
         
         //A series of print messages that show to specified criteria
         System.out.println("\n------------------------------------");

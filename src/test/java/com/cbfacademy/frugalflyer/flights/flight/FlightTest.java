@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.cbfacademy.frugalflyer.flights.airport.Airport;
 
-@DisplayName(value = "Airport Test Suite")
+@DisplayName(value = "Flight Test Suite")
 public class FlightTest {
 
     private Airport departureAirport;
@@ -24,7 +24,7 @@ public class FlightTest {
         departureAirport = new Airport();
         arrivalAirport = new Airport();
         price = 500.50;
-        departureDate = LocalDate.of(2025, 9, 28);
+        departureDate = LocalDate.now();
 
         flight = new Flight(departureAirport, arrivalAirport, price, departureDate);
     }

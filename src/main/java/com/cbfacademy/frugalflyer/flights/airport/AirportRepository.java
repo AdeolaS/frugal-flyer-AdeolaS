@@ -1,5 +1,6 @@
 package com.cbfacademy.frugalflyer.flights.airport;
 
+
 import org.springframework.data.repository.ListCrudRepository;
 
 /**

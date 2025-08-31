@@ -79,8 +79,13 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
         @Param ("departureAirport") String departureAirport
     );
 
-    //public List<Flight> findByDepartureAirportAndArrivalAirport(String departureAirport, String arrivalAirport);
 
+    /**
+     * Returns flights that leave and arrive at the specified airports
+     * @param departureAirport the aiport which the plane will leave from
+     * @param arrivalAirport the airport at which the plane will land
+     * @return
+     */
     @Query("SELECT f FROM Flight f " + 
             "WHERE LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
             "AND LOWER(f.arrivalAirport.code) = LOWER(:arrivalAirport) "

@@ -2,6 +2,9 @@ package com.cbfacademy.frugalflyer.flights.utility;
 
 import java.time.LocalDate;
 
+/**
+ * Class containing utility methods.
+ */
 // Final, so cannot be inherited of instantiated.
 public final class FlightsUtilityClass {
 

@@ -1,5 +1,8 @@
 package com.cbfacademy.frugalflyer.flights.customExceptions;
 
+/**
+ * Exception to be thrown when a given airport cannot be found.
+ */
 public class AirportNotFoundException extends Exception {
     private final String message;
 

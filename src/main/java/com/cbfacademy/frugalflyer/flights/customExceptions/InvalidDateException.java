@@ -1,5 +1,8 @@
 package com.cbfacademy.frugalflyer.flights.customExceptions;
 
+/**
+ * Exception to be thrown when a given date is invalid.
+ */
 public class InvalidDateException extends Exception {
     private final String message;
 

@@ -1,5 +1,8 @@
 package com.cbfacademy.frugalflyer.flights.customExceptions;
 
+/**
+ * Exception to be thrown when a given climate cannot be found.
+ */
 public class InvalidClimateStringException extends Exception {
     private final String message;
 

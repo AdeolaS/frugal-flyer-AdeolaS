@@ -113,6 +113,13 @@ public class FlightController {
         }
     }
 
+    /**
+     * Finds cheap flights with price anomalies
+     * @param departureAirport Airport that the flight will depart from
+     * @param arrivalAirport Airport that the flight will arrive at
+     * @param threshold value to compare zScore with.
+     * @return list of flights with price anomalies
+     */
     @GetMapping("/cheap-flights")
     public List<Flight> findCheapFlightAnomalies(
         @RequestParam String departureAirport, 

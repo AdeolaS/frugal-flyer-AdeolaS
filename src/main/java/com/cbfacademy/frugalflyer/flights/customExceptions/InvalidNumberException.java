@@ -1,5 +1,8 @@
 package com.cbfacademy.frugalflyer.flights.customExceptions;
 
+/**
+ * Exception to be thrown when a given nnumber is out of bounds.
+ */
 public class InvalidNumberException extends Exception {
     private final String message;
 

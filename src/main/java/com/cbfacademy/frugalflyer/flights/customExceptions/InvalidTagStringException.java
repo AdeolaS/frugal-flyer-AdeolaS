@@ -1,5 +1,8 @@
 package com.cbfacademy.frugalflyer.flights.customExceptions;
 
+/**
+ * Exception to be thrown when a given tag string cannot be found.
+ */
 public class InvalidTagStringException extends Exception {
     private final String message;
 

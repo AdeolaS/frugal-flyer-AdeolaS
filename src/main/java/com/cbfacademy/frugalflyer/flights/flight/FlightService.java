@@ -205,7 +205,7 @@ public class FlightService {
 
         List<Double> prices = new ArrayList<>();
 
-        List<Flight> flights = flightRepo.searchFlightsUsingAirportsForCalculation(departureAirport, arrivalAirport);
+        List<Flight> flights = flightRepo.searchFlightsUsingAirportsOnly(departureAirport, arrivalAirport);
 
         if (flights.size() < 3) {
             System.out.println("\n------------------------------------");

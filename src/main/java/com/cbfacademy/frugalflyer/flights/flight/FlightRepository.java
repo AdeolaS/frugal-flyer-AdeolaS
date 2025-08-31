@@ -85,7 +85,7 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
             "WHERE LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
             "AND LOWER(f.arrivalAirport.code) = LOWER(:arrivalAirport) "
            )
-    public List<Flight> searchFlightsUsingAirportsForCalculation(
+    public List<Flight> searchFlightsUsingAirportsOnly(
         @Param ("departureAirport") String departureAirport,
         @Param ("arrivalAirport") String arrivalAirport
     );

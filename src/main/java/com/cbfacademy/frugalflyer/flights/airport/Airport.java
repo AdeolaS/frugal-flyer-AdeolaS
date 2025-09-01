@@ -3,6 +3,7 @@ package com.cbfacademy.frugalflyer.flights.airport;
 import com.cbfacademy.frugalflyer.flights.destination.Destination;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -14,16 +15,19 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "airports")
+@Schema(description = "Airport object containing ID, name, city and country.")
 public class Airport {
 
     /**
      * ID of the airport which is its unique IATA code.
      */
-    @Id
+    @Id    
+    @Schema(name = "code", example = "LHR")
     private String code;
     /**
 	 * The name of the airport.
 	 */
+    @Schema(name = "name", example = "London Heathrow Airport")
     private String name;
     /**
      * The destination of the airport

@@ -11,6 +11,12 @@ import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidDateException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidNumberException;
 import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidTagStringException;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,6 +27,9 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Controller class to implement flights API endpoints.
  */
 @RestController
+@OpenAPIDefinition(info = @Info(
+    title = "Frugal Flyer API",
+    description = "Helps you find flights to the places you want to go for prices that won't empty your pocket."))
 @RequestMapping("/api/flights")
 public class FlightController {
     
@@ -43,6 +52,12 @@ public class FlightController {
     * @param flexiDays Number of flexible days to be subtracted and added from the departure date to allow a range of departure dates
     * @return List of flights that match the given search criteria
     */
+    @Operation(summary = "Retrieves flights, applying filters using given paramenters.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
+        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found."),
+        @ApiResponse(responseCode = "400", description = "Bad Request - Input parameter was invalid.")
+    })
     @GetMapping("/search-via-airport")
     public List<Flight> searchFlightsUsingArrivalAirport(
             @RequestParam (defaultValue = "999999") double maxBudget,
@@ -73,6 +88,12 @@ public class FlightController {
     * @param tag Descriptive tag that describes the type of holiday desired
     * @return List of flights that match the given search criteria
     */
+    @Operation(summary = "Retrieves flights, applying filters using given paramenters.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
+        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found."),
+        @ApiResponse(responseCode = "400", description = "Bad Request - Input parameter was invalid.")
+    })
     @GetMapping("/search-via-climate-and-tags")
     public List<Flight> searchFlightsUsingClimateAndTags(
             @RequestParam (defaultValue = "999999") double maxBudget,
@@ -103,6 +124,11 @@ public class FlightController {
      * @param departureAirport Airport that the flight will depart from
      * @return random flight
      */
+    @Operation(summary = "Finds a single random flight that leaves from the specified airport.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
+        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found.")
+    })
     @GetMapping("/surprise-me")
     public Flight findRandomFlight(@RequestParam String departureAirport) {
 
@@ -114,12 +140,18 @@ public class FlightController {
     }
 
     /**
-     * Finds cheap flights with price anomalies
+     * Finds cheap flights, from and to specfied airports, with price anomalies
      * @param departureAirport Airport that the flight will depart from
      * @param arrivalAirport Airport that the flight will arrive at
      * @param threshold value to compare zScore with.
      * @return list of flights with price anomalies
      */
+    @Operation(summary = "Finds cheap flights, from and to specfied airports, with price anomalies.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
+        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found."),
+        @ApiResponse(responseCode = "400", description = "Bad Request - Input parameter was invalid.")
+    })
     @GetMapping("/cheap-flights")
     public List<Flight> findCheapFlightAnomalies(
         @RequestParam String departureAirport, 

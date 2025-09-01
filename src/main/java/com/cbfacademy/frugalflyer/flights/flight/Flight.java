@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.cbfacademy.frugalflyer.flights.airport.Airport;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "flights")
+@Schema(description = "Flight object containing ID, departureAirport, arrivalAirport, price and departureDate.")
 public class Flight {
 
     /**
@@ -24,6 +26,7 @@ public class Flight {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(name = "id", example = "724")
     private Long id;
     /** 
      * Airport which the flight departs from.
@@ -32,6 +35,7 @@ public class Flight {
      */
     @ManyToOne
     @JoinColumn(name = "departure_airport_id")
+    @Schema(name = "departureAirport")
     private Airport departureAirport;
     /** 
      * Airport which the flight arrives at.
@@ -39,15 +43,19 @@ public class Flight {
      */
     @ManyToOne
     @JoinColumn(name = "arrival_airport_id")
+    @Schema(name = "arrivalAirport")
     private Airport arrivalAirport;
     /**
      * Price of the flight.
      */
+    @Schema(name = "price", example = "649.99")
     private double price;
     /**
      * Departure date of the flight.
      */
+    @Schema(name = "departureDate", example = "2026-09-11")
     private LocalDate departureDate;
+    
 
     /**
 	 * Parameterised constructor to create an Flight with specified details.

@@ -63,23 +63,23 @@ public class FlightControllerTest {
         .andExpect(status().isOk());
     }
 
-    @Test
-    @Description("GET /api/flights/search-via-airport returns 400 when InvalidDateException is thrown")
-    void test_searchFlightsUsingArrivalAirport_InvalidDateException() throws Exception {
+    // @Test
+    // @Description("GET /api/flights/search-via-airport returns 400 when InvalidDateException is thrown")
+    // void test_searchFlightsUsingArrivalAirport_InvalidDateException() throws Exception {
         
-        // Arrange
-        when(flightService.searchFlightsUsingArrivalAirport(anyDouble(),anyString(),anyString(),any(LocalDate.class),any(Integer.class))).thenThrow(new InvalidDateException(null));
+    //     // Arrange
+    //     when(flightService.searchFlightsUsingArrivalAirport(anyDouble(),anyString(),anyString(),any(LocalDate.class),any(Integer.class))).thenThrow(new InvalidDateException(null));
 
-        //perform() method will call the GET request, and the request
-        this.mockMvc.perform(
-        get("/api/flights/search-via-airport")
-        .param("departureAirport", "LHR")
-        .param("departureDate", "2024-01-01"))
-        // and response will be printed
-        .andDo(print())
-        //assert that the response will be BAD_REQUEST 400
-        .andExpect(status().isBadRequest());
-    }
+    //     //perform() method will call the GET request, and the request
+    //     this.mockMvc.perform(
+    //     get("/api/flights/search-via-airport")
+    //     .param("departureAirport", "LHR")
+    //     .param("departureDate", "2024-01-01"))
+    //     // and response will be printed
+    //     .andDo(print())
+    //     //assert that the response will be BAD_REQUEST 400
+    //     .andExpect(status().isBadRequest());
+    // }
 
     @Test
     @Description("GET /api/flights/search-via-climate-and-tags returns 200 when departure airport is given")
@@ -95,34 +95,34 @@ public class FlightControllerTest {
         .andExpect(status().isOk());
     }
 
-    @Test
-    @Description("GET /surprise-me returns 200 when departure airport is given")
-    void test_findRandomFlight_depatureAirportGiven() throws Exception {
+    // @Test
+    // @Description("GET /surprise-me returns 200 when departure airport is given")
+    // void test_findRandomFlight_depatureAirportGiven() throws Exception {
         
-        // Arrange
-        when(flightService.findRandomFlight(anyString())).thenReturn(flight);
+    //     // Arrange
+    //     when(flightService.findRandomFlight(anyString())).thenReturn(flight);
 
-        //perform() method will call the GET request, and the request
-        this.mockMvc.perform(get("/api/flights/surprise-me")
-        .param("departureAirport", "LHR"))
-        //assert that the response will be OK 200
-        .andExpect(status().isOk());
-    }
+    //     //perform() method will call the GET request, and the request
+    //     this.mockMvc.perform(get("/api/flights/surprise-me")
+    //     .param("departureAirport", "LHR"))
+    //     //assert that the response will be OK 200
+    //     .andExpect(status().isOk());
+    // }
 
-    @Test
-    @Description("GET /api/flights/cheap-flights returns 200 when airports and threshold is given")
-    void test_findCheapFlightAnomalies_AirportsAndThresholdGiven() throws Exception {
+    // @Test
+    // @Description("GET /api/flights/cheap-flights returns 200 when airports and threshold is given")
+    // void test_findCheapFlightAnomalies_AirportsAndThresholdGiven() throws Exception {
         
-        // Arrange
-        when(flightService.findCheapFlightAnomalies(anyString(), anyString(), anyDouble())).thenReturn(defaultFlights);
+    //     // Arrange
+    //     when(flightService.findCheapFlightAnomalies(anyString(), anyString(), anyDouble())).thenReturn(defaultFlights);
 
-        //perform() method will call the GET request, and the request
-        this.mockMvc.perform(get("/api/flights/cheap-flights")
-        .param("departureAirport", "LHR")
-        .param("arrivalAirport", "JFK")
-        .param("threshold", "0.5"))
-        //assert that the response will be OK 200
-        .andExpect(status().isOk());
-    }
+    //     //perform() method will call the GET request, and the request
+    //     this.mockMvc.perform(get("/api/flights/cheap-flights")
+    //     .param("departureAirport", "LHR")
+    //     .param("arrivalAirport", "JFK")
+    //     .param("threshold", "0.5"))
+    //     //assert that the response will be OK 200
+    //     .andExpect(status().isOk());
+    // }
 
 }

@@ -1,5 +1,7 @@
 package com.cbfacademy.frugalflyer.flights.exceptions;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +12,7 @@ import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidCli
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidDateException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidNumberException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidTagStringException;
+
 
 /**
  * Class that handles exceptions for mulitple controllers across the application. 
@@ -24,10 +27,17 @@ public class GlobalExceptionHandler {
      */
     //Annotation tells Spring that anytime this exception is thrown in the program, route the error here.
     @ExceptionHandler(AirportNotFoundException.class)
-    public ResponseEntity<String> handleAirportNotFound(AirportNotFoundException e) {
+    public ResponseEntity<ApiError> handleAirportNotFound(AirportNotFoundException e) {
+        // Generate body of the Response Entity with the thrown error message, the HTTP Status and time of error.
+        ApiError body = new ApiError(
+            e.getMessage(),
+            HttpStatus.NOT_FOUND.value(),
+            LocalDateTime.now()
+        );
+        
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
-            .body(e.getMessage());
+            .body(body);
     }
 
     /**
@@ -37,10 +47,17 @@ public class GlobalExceptionHandler {
      */
     //Annotation tells Spring that anytime this exception is thrown in the program, route the error here.
     @ExceptionHandler(InvalidClimateStringException.class)
-    public ResponseEntity<String> handleInvalidClimateString(InvalidClimateStringException e) {
+    public ResponseEntity<ApiError> handleInvalidClimateString(InvalidClimateStringException e) {
+        // Generate body of the Response Entity with the thrown error message, the HTTP Status and time of error.
+        ApiError body = new ApiError(
+            e.getMessage(),
+            HttpStatus.NOT_FOUND.value(),
+            LocalDateTime.now()
+        );
+        
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
-            .body(e.getMessage());
+            .body(body);
     }
 
     /**
@@ -50,10 +67,17 @@ public class GlobalExceptionHandler {
      */
     //Annotation tells Spring that anytime this exception is thrown in the program, route the error here.
     @ExceptionHandler(InvalidTagStringException.class)
-    public ResponseEntity<String> handleInvalidTagString(InvalidTagStringException e) {
+    public ResponseEntity<ApiError> handleInvalidTagString(InvalidTagStringException e) {
+        // Generate body of the Response Entity with the thrown error message, the HTTP Status and time of error.
+        ApiError body = new ApiError(
+            e.getMessage(),
+            HttpStatus.NOT_FOUND.value(),
+            LocalDateTime.now()
+        );
+        
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
-            .body(e.getMessage());
+            .body(body);
     }
 
     /**
@@ -63,10 +87,17 @@ public class GlobalExceptionHandler {
      */
     //Annotation tells Spring that anytime this exception is thrown in the program, route the error here.
     @ExceptionHandler(InvalidDateException.class)
-    public ResponseEntity<String> handleInvalidDate(InvalidDateException e) {
+    public ResponseEntity<ApiError> handleInvalidDate(InvalidDateException e) {
+        // Generate body of the Response Entity with the thrown error message, the HTTP Status and time of error.
+        ApiError body = new ApiError(
+            e.getMessage(),
+            HttpStatus.BAD_REQUEST.value(),
+            LocalDateTime.now()
+        );
+        
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
-            .body(e.getMessage());
+            .body(body);
     }
 
     /**
@@ -76,10 +107,17 @@ public class GlobalExceptionHandler {
      */
     //Annotation tells Spring that anytime this exception is thrown in the program, route the error here.
     @ExceptionHandler(InvalidNumberException.class)
-    public ResponseEntity<String> handleInvalidNumber(InvalidNumberException e) {
+    public ResponseEntity<ApiError> handleInvalidNumber(InvalidNumberException e) {
+        // Generate body of the Response Entity with the thrown error message, the HTTP Status and time of error.
+        ApiError body = new ApiError(
+            e.getMessage(),
+            HttpStatus.BAD_REQUEST.value(),
+            LocalDateTime.now()
+        );
+        
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
-            .body(e.getMessage());
+            .body(body);
     }
 
 }

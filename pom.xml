@@ -78,6 +78,7 @@
 					<encoding>UTF-8</encoding>
 					<doclint>none</doclint> <!-- disables strict checks that may break build -->
 					<!-- <outputDirectory>${project.build.directory}/apidocs</outputDirectory> -->
+					<outputDirectory>src\main\resources\apidocs</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

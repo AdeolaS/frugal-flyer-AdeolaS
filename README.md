@@ -69,7 +69,7 @@ ___
 1. Clone the project
 
 ```bash
-  git https://github.com/AdeolaS/frugal-flyer-AdeolaS.git
+  git clone https://github.com/AdeolaS/frugal-flyer-AdeolaS.git
 ```
 
 2. Go to the project directory

@@ -22,12 +22,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import com.cbfacademy.frugalflyer.flights.airport.AirportRepository;
-import com.cbfacademy.frugalflyer.flights.customExceptions.AirportNotFoundException;
-import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidClimateStringException;
-import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidDateException;
-import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidNumberException;
-import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidTagStringException;
 import com.cbfacademy.frugalflyer.flights.destination.DestinationRepository;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidClimateStringException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidDateException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidNumberException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidTagStringException;
 
 @DisplayName(value = "Flight Service Test Suite")
 public class FlightServiceTest {

@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.cbfacademy.frugalflyer.flights.customExceptions.AirportNotFoundException;
-import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidClimateStringException;
-import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidDateException;
-import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidNumberException;
-import com.cbfacademy.frugalflyer.flights.customExceptions.InvalidTagStringException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidClimateStringException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidDateException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidNumberException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidTagStringException;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * Controller class to implement flights API endpoints.
+ * Controller class to implement flights API endpoints and handle requests.
  */
 @RestController
 @OpenAPIDefinition(info = @Info(
@@ -53,11 +53,11 @@ public class FlightController {
     * @return List of flights that match the given search criteria
     */
     @Operation(summary = "Retrieves flights, applying filters using given paramenters.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
-        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found."),
-        @ApiResponse(responseCode = "400", description = "Bad Request - Input parameter was invalid.")
-    })
+    // @ApiResponses(value = {
+    //     @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
+    //     @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found."),
+    //     @ApiResponse(responseCode = "400", description = "Bad Request - Input parameter was invalid.")
+    // })
     @GetMapping("/search-via-airport")
     public List<Flight> searchFlightsUsingArrivalAirport(
             @RequestParam (defaultValue = "999999") double maxBudget,
@@ -65,17 +65,9 @@ public class FlightController {
             @RequestParam (required = false) String arrivalAirport,
             @RequestParam (required = false) LocalDate departureDate,
             @RequestParam (required = false) Integer flexiDays
-            ) {
+            ) throws InvalidDateException, AirportNotFoundException, InvalidNumberException {
 
-        try {
-            return flightService.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, flexiDays);
-        } catch(InvalidDateException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch(AirportNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch(InvalidNumberException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+        return flightService.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, flexiDays);
     }
 
     /**
@@ -89,11 +81,11 @@ public class FlightController {
     * @return List of flights that match the given search criteria
     */
     @Operation(summary = "Retrieves flights, applying filters using given paramenters.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
-        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found."),
-        @ApiResponse(responseCode = "400", description = "Bad Request - Input parameter was invalid.")
-    })
+    // @ApiResponses(value = {
+    //     @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
+    //     @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found."),
+    //     @ApiResponse(responseCode = "400", description = "Bad Request - Input parameter was invalid.")
+    // })
     @GetMapping("/search-via-climate-and-tags")
     public List<Flight> searchFlightsUsingClimateAndTags(
             @RequestParam (defaultValue = "999999") double maxBudget,
@@ -102,21 +94,9 @@ public class FlightController {
             @RequestParam (required = false) LocalDate departureDate,
             @RequestParam (required = false) Integer flexiDays,
             @RequestParam (required = false) String tag
-            ) {
-        
-        try {
-            return flightService.searchFlightsUsingClimateAndTags(maxBudget, departureAirport, climate, departureDate, flexiDays, tag);
-        } catch(InvalidDateException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch(AirportNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch(InvalidNumberException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch(InvalidClimateStringException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch(InvalidTagStringException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+            ) throws InvalidDateException, AirportNotFoundException, InvalidNumberException, InvalidClimateStringException, InvalidTagStringException {
+
+        return flightService.searchFlightsUsingClimateAndTags(maxBudget, departureAirport, climate, departureDate, flexiDays, tag);
     }
 
     /**
@@ -125,18 +105,14 @@ public class FlightController {
      * @return random flight
      */
     @Operation(summary = "Finds a single random flight that leaves from the specified airport.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
-        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found.")
-    })
+    // @ApiResponses(value = {
+    //     @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
+    //     @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found.")
+    // })
     @GetMapping("/surprise-me")
-    public Flight findRandomFlight(@RequestParam String departureAirport) {
+    public Flight findRandomFlight(@RequestParam String departureAirport) throws AirportNotFoundException {
 
-        try {
-            return flightService.findRandomFlight(departureAirport);
-        } catch (AirportNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+        return flightService.findRandomFlight(departureAirport);
     }
 
     /**
@@ -147,26 +123,19 @@ public class FlightController {
      * @return list of flights with price anomalies
      */
     @Operation(summary = "Finds cheap flights, from and to specfied airports, with price anomalies.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
-        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found."),
-        @ApiResponse(responseCode = "400", description = "Bad Request - Input parameter was invalid.")
-    })
+    // @ApiResponses(value = {
+    //     @ApiResponse(responseCode = "200", description = "Flights successfully retrieved."),
+    //     @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found."),
+    //     @ApiResponse(responseCode = "400", description = "Bad Request - Input parameter was invalid.")
+    // })
     @GetMapping("/cheap-flights")
     public List<Flight> findCheapFlightAnomalies(
         @RequestParam String departureAirport, 
         @RequestParam String arrivalAirport,
         @RequestParam (defaultValue = "0.5") double threshold
-        ) {
+        ) throws AirportNotFoundException, InvalidNumberException{
         
-        try{
-            return flightService.findCheapFlightAnomalies(departureAirport, arrivalAirport, threshold);
-        } catch(AirportNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch(InvalidNumberException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+        return flightService.findCheapFlightAnomalies(departureAirport, arrivalAirport, threshold);
     }
     
-
 }

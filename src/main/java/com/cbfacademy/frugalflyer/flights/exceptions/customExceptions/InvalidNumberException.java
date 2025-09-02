@@ -12,6 +12,6 @@ public class InvalidNumberException extends Exception {
 
     @Override
     public String getMessage() {
-        return String.join(" - ", super.getMessage(), this.message);
+        return String.join(" - ", "InvalidNumberException", this.message);
     }
 }

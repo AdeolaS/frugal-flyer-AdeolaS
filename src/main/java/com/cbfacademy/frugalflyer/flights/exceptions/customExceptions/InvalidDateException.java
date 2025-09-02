@@ -12,6 +12,6 @@ public class InvalidDateException extends Exception {
 
     @Override
     public String getMessage() {
-        return String.join(" - ", super.getMessage(), this.message);
+        return String.join(" - ", "InvalidDateException", this.message);
     }
 }

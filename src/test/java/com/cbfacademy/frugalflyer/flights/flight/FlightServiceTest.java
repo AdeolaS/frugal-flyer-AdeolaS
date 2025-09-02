@@ -387,6 +387,7 @@ public class FlightServiceTest {
     }
 
     @ParameterizedTest
+    @DisplayName("findCheapFlightAnomalies returns anomalous flight from a set of flights ")
     @CsvSource({
         "450.02, 550.30, 530.20, 181.30",
         "181.21, 178.2, 161.20, 80.10",

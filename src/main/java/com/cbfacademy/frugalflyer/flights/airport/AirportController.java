@@ -1,32 +1,82 @@
 package com.cbfacademy.frugalflyer.flights.airport;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cbfacademy.frugalflyer.flights.exceptions.ApiError;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+
+@RestController
+@RequestMapping("/api/airports")
 public class AirportController {
     
-    private final AirportController airportController;
+    private final AirportService airportService;
 
-    public void deleteAirportByCode() {
-
+    public AirportController(AirportService airportService) {
+        this.airportService = airportService;
     }
 
-    public void createNewAirport() {
+    //Annotations for Swagger Documentation
+    @Operation(summary = "Deletes an airport, with the specified code, from the database.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Flights successfully deleted."),
+        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found.",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))})
+    })
+    //Endpoint
+    @DeleteMapping("/{code}")
+    public void deleteAirportByCode(@PathVariable String code) throws AirportNotFoundException{
+        airportService.deleteAirportByCode(code);
+    }
+    
+    @PostMapping
+    public ResponseEntity<Airport> createNewAirport(@RequestBody Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
 
+        Airport createdAirport = airportService.createNewAirport(airport);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createdAirport);
     }
 
-    public void updateAirport() {
-
-    }
-
+    //Annotations for Swagger Documentation
+    @Operation(summary = "Retrieves all airports in the database.")
+    @ApiResponse(responseCode = "200", description = "Flights successfully retrieved.")    
+    //Endpoint
+    @GetMapping
     public List<Airport> getAllAirports() {
-
-        List<Airport> airports = new ArrayList<>();
-        return airports;
+        return airportService.getAllAirports();
     }
 
-    public Airport getAirportByCode() {
-        
-        return airport;
+    //Annotations for Swagger Documentation
+    @Operation(summary = "Finds an airport, with the specified code, from the database.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Flight successfully found."),
+        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found.",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))})
+    })
+    //Endpoint
+    @GetMapping("/{code}")
+    public Airport getAirportByCode(@PathVariable String code) throws AirportNotFoundException {
+
+        return airportService.getAirportByCode(code);
     }
 }

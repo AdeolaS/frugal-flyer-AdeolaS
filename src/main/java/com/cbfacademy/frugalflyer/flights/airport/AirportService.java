@@ -28,9 +28,9 @@ public class AirportService {
         }
     }
 
-    public void createNewAirport(Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
+    public Airport createNewAirport(Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
 
-        airportRepo.save(airport);
+        return airportRepo.save(airport);
     }
 
     public void updateAirport(String code, Airport updatedAirport) throws AirportNotFoundException {

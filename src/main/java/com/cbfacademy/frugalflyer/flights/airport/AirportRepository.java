@@ -1,7 +1,10 @@
 package com.cbfacademy.frugalflyer.flights.airport;
 
 
+
 import org.springframework.data.repository.ListCrudRepository;
+
+
 
 /**
  * The AirportRepository interface defines the operations for managing Airports in the system.
@@ -9,4 +12,7 @@ import org.springframework.data.repository.ListCrudRepository;
  */
 public interface AirportRepository extends ListCrudRepository<Airport,String> {
     
+    Airport findByCodeIgnoreCase(String code);
+
+    public void deleteByCodeIgnoreCase(String code);
 }

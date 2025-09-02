@@ -105,7 +105,7 @@ ___
    
 
 <!-- Example Endpoints -->
-### :microscope: Example Enpoints
+### :microscope: Example Endpoints
 
 ```http
   GET /api/flights/cheap-flights
@@ -128,7 +128,7 @@ Example Request:
 <!-- Error Handling -->
 ### :warning: Error Handling
 
-The API returns structures error responses:
+The API returns structured error responses:
 
 ```json
 {

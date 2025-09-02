@@ -45,8 +45,19 @@ Swagger UI is available at:
 ```bash
   http://localhost:8080/swagger-ui/index.html
 ```
+(Make sure that the API is running before you navigate here.)
 <div align="center"> 
   <img src="assets\frugalFlyerSwaggerScreenshot.png" alt="screenshot" />
+</div>
+
+Java Doc:
+
+Detailed class and method documentation can be found in the Javadoc here: 
+
+<a href="https://adeolas.github.io/frugal-flyer-AdeolaS/">https://adeolas.github.io/frugal-flyer-AdeolaS/</a>
+
+<div align="center"> 
+  <img src="assets\frugalFlyerJavaDocScreenshot.png" alt="screenshot" />
 </div>
 
 ___
@@ -88,4 +99,49 @@ ___
 
 ```bash
   ./mvnw spring-boot:run
+```
+
+___
+   
+
+<!-- Example Endpoints -->
+### :microscope: Example Enpoints
+
+```http
+  GET /api/flights/cheap-flights
+```
+
+Query Parameters:
+
+- `departureAirport` (required)
+- `arrivalAirport` (required)
+- `threshold` (default = 0.5)
+
+Example Request:
+
+```sql
+    GET /api/flights/cheap-flights?departureAirport=LHR&arrivalAirport=CDG
+```
+
+---
+
+<!-- Error Handling -->
+### :warning: Error Handling
+
+The API returns structures error responses:
+
+```json
+{
+    "message": "null - The threshold cannot be a negative value.",
+    "status": 400,
+    "timeOfError": "2025-09-02T01:40:29.2960159"
+}
+```
+
+```json
+{
+    "message": "null - Invalid Airport code: CD. Please insert an airport that is recognised by this application.",
+    "status": 404,
+    "timeOfError": "2025-09-02T01:41:18.3871361"
+}
 ```

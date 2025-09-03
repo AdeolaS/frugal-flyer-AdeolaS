@@ -10,6 +10,7 @@ import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidCli
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidDateException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidNumberException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidTagStringException;
+import com.cbfacademy.frugalflyer.flights.externalFlight.ExternalFlightService;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,6 +72,15 @@ public class FlightController {
             @RequestParam (required = false) LocalDate departureDate,
             @RequestParam (required = false) Integer flexiDays
             ) throws InvalidDateException, AirportNotFoundException, InvalidNumberException {
+        
+        
+        // final ExternalFlightService externalFlightService = new ExternalFlightService();
+
+		// try {
+		// 	externalFlightService.getExternalFlightData();
+		// } catch(Exception e) {
+        //     e.printStackTrace();
+		// }
 
         return flightService.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, flexiDays);
     }
@@ -153,5 +163,4 @@ public class FlightController {
         
         return flightService.findCheapFlightAnomalies(departureAirport, arrivalAirport, threshold);
     }
-    
 }

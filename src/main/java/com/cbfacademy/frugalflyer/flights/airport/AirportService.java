@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
 
@@ -19,6 +20,7 @@ public class AirportService {
         this.airportRepo = airportRepo;
     }
 
+    @Transactional
     public void deleteAirportByCode (String code) throws AirportNotFoundException {
 
         if (airportRepo.findByCodeIgnoreCase(code) == null) {
@@ -28,11 +30,13 @@ public class AirportService {
         }
     }
 
+    @Transactional
     public Airport createNewAirport(Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
 
         return airportRepo.save(airport);
     }
 
+    @Transactional
     public void updateAirport(String code, Airport updatedAirport) throws AirportNotFoundException {
 
         if (airportRepo.findByCodeIgnoreCase(code) == null) {

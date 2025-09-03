@@ -2,7 +2,9 @@ package com.cbfacademy.frugalflyer.flights.airport;
 
 
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
@@ -12,7 +14,10 @@ import org.springframework.data.repository.ListCrudRepository;
  */
 public interface AirportRepository extends ListCrudRepository<Airport,String> {
     
+    @Transactional(readOnly = true)
     Airport findByCodeIgnoreCase(String code);
 
+    @Modifying
+    @Transactional
     public void deleteByCodeIgnoreCase(String code);
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The FlightRepository interface defines the operations for managing Flights in the system.
@@ -21,6 +22,7 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
      * @param departureDate departure date of flight
      * @return a list of flights that match the search specifications
      */
+    @Transactional(readOnly = true)
     @Query("SELECT f FROM Flight f " + 
             "WHERE f.price <= :maxBudget " +
             "AND LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
@@ -47,6 +49,7 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
      * @param tag descriptive tag of type of holiday
      * @return a list of flights that match the search specifications
      */
+    @Transactional(readOnly = true)
     @Query("SELECT f FROM Flight f " + 
             "WHERE f.price <= :maxBudget " +
             "AND LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
@@ -71,6 +74,7 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
      * @param departureAirport the aiport which the plane will leave from
      * @return a random flight from the specified departure airport
      */
+    @Transactional(readOnly = true)
     @Query("SELECT f FROM Flight f " +
             "WHERE LOWER(f.departureAirport.code) = LOWER(:departureAirport) " + 
             "ORDER BY RAND() LIMIT 1"
@@ -86,6 +90,7 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
      * @param arrivalAirport the airport at which the plane will land
      * @return
      */
+    @Transactional(readOnly = true)
     @Query("SELECT f FROM Flight f " + 
             "WHERE LOWER(f.departureAirport.code) = LOWER(:departureAirport) " +
             "AND LOWER(f.arrivalAirport.code) = LOWER(:arrivalAirport) "

@@ -36,10 +36,7 @@ public class AirportService {
                 throw new AirportInUseException("Airport with code " + code + " is in use. Please enter an airport with no flights arriving at or departing from it.");
             } else {
                 airportRepo.deleteByCodeIgnoreCase(code);
-            }
-
-            System.out.println("Airport Deleted.");
-            
+            }            
         }
     }
 

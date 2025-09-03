@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.cbfacademy.frugalflyer.flights.exceptions.ApiError;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportInUseException;
@@ -58,11 +59,15 @@ public class AirportController {
     @PostMapping
     public ResponseEntity<Airport> createNewAirport(@RequestBody Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
 
-        Airport createdAirport = airportService.createNewAirport(airport);
+        try {
+            Airport createdAirport = airportService.createNewAirport(airport);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(createdAirport);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(createdAirport);
+        } catch (RuntimeException exception) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), exception);
+        }
     }
 
     //Annotations for Swagger Documentation

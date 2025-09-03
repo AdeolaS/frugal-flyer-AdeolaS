@@ -306,7 +306,10 @@ INSERT IGNORE INTO airports (code, name, destination_id) VALUES
   ('KTM', 'Tribhuvan International Airport', 97),
   ('CMB', 'Bandaranaike International Airport', 98),
   ('KHI', 'Jinnah International Airport', 99),
-  ('IKA', 'Imam Khomeini International Airport', 100);
+  ('IKA', 'Imam Khomeini International Airport', 100),
+  ('DMP', 'Delete Me Please Airport', 1),
+  ('DMT', 'Delete Me Too Airport', 2),
+  ('MAW', 'Me As Well Airport', 3);
 
 -- Flights
 INSERT IGNORE INTO flights (departure_airport_id, arrival_airport_id, price, departure_date) VALUES

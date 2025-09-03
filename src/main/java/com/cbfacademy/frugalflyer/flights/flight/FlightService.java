@@ -5,11 +5,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import com.cbfacademy.frugalflyer.flights.airport.AirportRepository;
 import com.cbfacademy.frugalflyer.flights.destination.DestinationRepository;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.FlightNotFoundException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidClimateStringException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidDateException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidNumberException;
@@ -253,4 +255,30 @@ public class FlightService {
         return cheapFlights;
     }
 
+    public void deleteFlightbyId(Long id) throws FlightNotFoundException {
+        
+        if (flightRepo.findById(id).isPresent()) {
+            flightRepo.deleteById(id);
+        } else {
+            throw new FlightNotFoundException("Invalid flight ID. Please enter an ID that exists in the database.");
+        }
+    }
+
+    public Flight createNewFlight(Flight flight) throws OptimisticLockingFailureException {
+
+        return flightRepo.save(flight);
+    }
+
+    public void updateFlight(Long id, Flight updatedFlight) throws FlightNotFoundException {
+
+        if (!flightRepo.findById(id).isPresent()){
+            throw new FlightNotFoundException("Invalid flight ID. Please enter an ID that exists in the database.");
+        } else {
+            Flight flight = flightRepo.findById(id).get();
+            flight.setDepartureAirport(updatedFlight.getDepartureAirport());
+            flight.setArrivalAirport(updatedFlight.getArrivalAirport());
+            flight.setPrice(updatedFlight.getPrice());
+            flight.setDepartureDate(updatedFlight.getDepartureDate());
+        }
+    }
 }

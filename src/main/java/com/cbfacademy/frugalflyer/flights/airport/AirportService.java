@@ -6,7 +6,9 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportInUseException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
+import com.cbfacademy.frugalflyer.flights.flight.FlightRepository;
 
 /**
  * Service class to manage airport objects
@@ -15,18 +17,29 @@ import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNot
 public class AirportService {
 
     private final AirportRepository airportRepo;
+    private final FlightRepository flightRepo;
 
-    public AirportService(AirportRepository airportRepo) {
+    public AirportService(AirportRepository airportRepo, FlightRepository flightRepo) {
         this.airportRepo = airportRepo;
+        this.flightRepo = flightRepo;
     }
 
     @Transactional
-    public void deleteAirportByCode (String code) throws AirportNotFoundException {
+    public void deleteAirportByCode (String code) throws AirportNotFoundException, AirportInUseException {
 
+        // If the airport doesn't exist
         if (airportRepo.findByCodeIgnoreCase(code) == null) {
             throw new AirportNotFoundException("Invalid Airport code: " + code + ". The airport you are trying to delete doesn't exist in the database.");
         } else {
-            airportRepo.deleteByCodeIgnoreCase(code);
+            // If the airport exists and flights are flying to and from it
+            if (flightRepo.existsByAirportCode(code)) {
+                throw new AirportInUseException("Airport with code " + code + " is in use. Please enter an airport with no flights arriving at or departing from it.");
+            } else {
+                airportRepo.deleteByCodeIgnoreCase(code);
+            }
+
+            System.out.println("Airport Deleted.");
+            
         }
     }
 

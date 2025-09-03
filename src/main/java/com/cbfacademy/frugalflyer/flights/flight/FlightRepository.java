@@ -99,4 +99,16 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
         @Param ("departureAirport") String departureAirport,
         @Param ("arrivalAirport") String arrivalAirport
     );
+
+    @Transactional(readOnly = true)
+    // if there's more than 0 matching flights, returns true. Else, false
+    @Query("SELECT CASE WHEN COUNT(f) > 0 THEN true ELSE false END " +
+        "FROM Flight f " +
+        "WHERE LOWER(f.departureAirport.code) = LOWER(:code) " +
+        "   OR LOWER(f.arrivalAirport.code) = LOWER(:code)")
+    public boolean existsByAirportCode(@Param("code") String code);
+
+    // public boolean existsByDepartureAirportIgnoreCase(String code);
+
+    // public boolean existsByArrivalAirportIgnoreCase(String code);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cbfacademy.frugalflyer.flights.exceptions.ApiError;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportInUseException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,14 +38,21 @@ public class AirportController {
     //Annotations for Swagger Documentation
     @Operation(summary = "Deletes an airport, with the specified code, from the database.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Flights successfully deleted."),
-        @ApiResponse(responseCode = "404", description = "Not Found - Input parameter was not found.",
+        @ApiResponse(responseCode = "204", description = "Flights successfully deleted."),
+        @ApiResponse(responseCode = "404", description = "Not Found - Input Airport code was not found.",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))}),
+        @ApiResponse(responseCode = "400", description = "Airport in Use - Input airport has flight going to and from it so cannot be deleted.",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))})
     })
     //Endpoint
     @DeleteMapping("/{code}")
-    public void deleteAirportByCode(@PathVariable String code) throws AirportNotFoundException{
+    public ResponseEntity<?> deleteAirportByCode(@PathVariable String code) throws AirportNotFoundException, AirportInUseException {
+        
         airportService.deleteAirportByCode(code);
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
     
     @PostMapping

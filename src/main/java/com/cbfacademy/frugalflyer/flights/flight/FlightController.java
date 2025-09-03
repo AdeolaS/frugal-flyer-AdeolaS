@@ -23,6 +23,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -163,4 +165,10 @@ public class FlightController {
         
         return flightService.findCheapFlightAnomalies(departureAirport, arrivalAirport, threshold);
     }
+    
+    // @DeleteMapping("/")
+    // public void deleteFlightbyId() {
+
+        
+    // }
 }

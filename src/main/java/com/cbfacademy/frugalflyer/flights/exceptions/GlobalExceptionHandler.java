@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportInUseException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
+import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.FlightNotFoundException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidClimateStringException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidDateException;
 import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidNumberException;
@@ -117,6 +119,40 @@ public class GlobalExceptionHandler {
         
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
+            .body(body);
+    }
+
+    @ExceptionHandler(AirportInUseException.class)
+    public ResponseEntity<ApiError> AirportInUse(AirportInUseException e) {
+        // Generate body of the Response Entity with the thrown error message, the HTTP Status and time of error.
+        ApiError body = new ApiError(
+            e.getMessage(),
+            HttpStatus.BAD_REQUEST.value(),
+            LocalDateTime.now()
+        );
+        
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(body);
+    }
+
+    /**
+     * Handler for AirportNotFoundException
+     * @param e the exception that was thrown
+     * @return a HTTP response containing a status and body
+     */
+    //Annotation tells Spring that anytime this exception is thrown in the program, route the error here.
+    @ExceptionHandler(FlightNotFoundException.class)
+    public ResponseEntity<ApiError> FlightNotFound(FlightNotFoundException e) {
+        // Generate body of the Response Entity with the thrown error message, the HTTP Status and time of error.
+        ApiError body = new ApiError(
+            e.getMessage(),
+            HttpStatus.NOT_FOUND.value(),
+            LocalDateTime.now()
+        );
+        
+        return ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
             .body(body);
     }
 

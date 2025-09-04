@@ -1,4 +1,4 @@
-package com.cbfacademy.frugalflyer.flights.exceptions.customExceptions;
+package com.cbfacademy.frugalflyer.flights.exceptions;
 
 /**
  * Exception to be thrown when a given tag string cannot be found.

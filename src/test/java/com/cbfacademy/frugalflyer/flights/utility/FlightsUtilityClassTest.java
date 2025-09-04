@@ -9,6 +9,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import com.cbfacademy.frugalflyer.flights.flight.FlightsUtilityClass;
+
 @DisplayName(value = "Flights Utility Class Test Suite")
 class FlightsUtilityClassTest {
 

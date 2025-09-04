@@ -1,4 +1,4 @@
-package com.cbfacademy.frugalflyer.flights.utility;
+package com.cbfacademy.frugalflyer.flights.flight;
 
 import java.time.LocalDate;
 

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.cbfacademy.frugalflyer.flights.exceptions.ApiError;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportInUseException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -56,6 +54,9 @@ public class AirportController {
                 .build();
     }
     
+    //Annotations for Swagger Documentation
+    @Operation(summary = "Adds a new airport to the database.")   
+    @ApiResponse(responseCode = "200", description = "Flights successfully retrieved.")   
     @PostMapping
     public ResponseEntity<Airport> createNewAirport(@RequestBody Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
 

@@ -4,13 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cbfacademy.frugalflyer.flights.airport.AirportNotFoundException;
 import com.cbfacademy.frugalflyer.flights.exceptions.ApiError;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidClimateStringException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidDateException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidNumberException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidTagStringException;
-import com.cbfacademy.frugalflyer.flights.externalFlight.ExternalFlightService;
+import com.cbfacademy.frugalflyer.flights.exceptions.InvalidClimateStringException;
+import com.cbfacademy.frugalflyer.flights.exceptions.InvalidDateException;
+import com.cbfacademy.frugalflyer.flights.exceptions.InvalidNumberException;
+import com.cbfacademy.frugalflyer.flights.exceptions.InvalidTagStringException;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,8 +22,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**

@@ -1,4 +1,4 @@
-package com.cbfacademy.frugalflyer.flights.exceptions.customExceptions;
+package com.cbfacademy.frugalflyer.flights.flight;
 
 /**
  * Exception to be thrown when a given airport cannot be found.

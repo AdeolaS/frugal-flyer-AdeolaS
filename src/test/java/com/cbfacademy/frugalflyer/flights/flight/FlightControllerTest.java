@@ -17,7 +17,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import com.cbfacademy.frugalflyer.flights.airport.Airport;
 import com.cbfacademy.frugalflyer.flights.destination.Destination;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidDateException;
+import com.cbfacademy.frugalflyer.flights.exceptions.InvalidDateException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

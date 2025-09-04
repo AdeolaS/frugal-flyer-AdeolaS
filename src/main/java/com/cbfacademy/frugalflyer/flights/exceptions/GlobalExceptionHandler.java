@@ -7,13 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportInUseException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.AirportNotFoundException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.FlightNotFoundException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidClimateStringException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidDateException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidNumberException;
-import com.cbfacademy.frugalflyer.flights.exceptions.customExceptions.InvalidTagStringException;
+import com.cbfacademy.frugalflyer.flights.airport.AirportInUseException;
+import com.cbfacademy.frugalflyer.flights.airport.AirportNotFoundException;
+import com.cbfacademy.frugalflyer.flights.flight.FlightNotFoundException;
 
 
 /**

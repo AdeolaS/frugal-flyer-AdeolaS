@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,9 +73,25 @@ public class AirportController {
     }
 
     //Annotations for Swagger Documentation
+    @Operation(summary = "Updates an airport in the database.")
+    @ApiResponse(responseCode = "200", description = "Flight successfully updated.") 
+    @PutMapping("/{code}")
+    public Airport updateAirport(
+        @PathVariable String code,
+        @RequestBody Airport updatedAirport
+    ) throws AirportNotFoundException {
+
+        return airportService.updateAirport(code, updatedAirport);
+    }
+
+
+    //Annotations for Swagger Documentation
     @Operation(summary = "Retrieves all airports in the database.")
-    @ApiResponse(responseCode = "200", description = "Flights successfully retrieved.")    
-    //Endpoint
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Flight successfully updated."),
+        @ApiResponse(responseCode = "404", description = "Airport Not Found - The code you gave doesn't belong to an airport in the database.",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))})
+    })    //Endpoint
     @GetMapping
     public List<Airport> getAllAirports() {
         return airportService.getAllAirports();

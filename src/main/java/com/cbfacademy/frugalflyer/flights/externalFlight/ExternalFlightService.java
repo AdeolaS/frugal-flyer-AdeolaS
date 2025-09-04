@@ -3,7 +3,10 @@ package com.cbfacademy.frugalflyer.flights.externalFlight;
 import java.net.URL;
 import java.util.Scanner;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -11,11 +14,25 @@ import java.net.URI;
 @Service
 public class ExternalFlightService {
 
-    public void getExternalFlightData() throws Exception{
+    public void getExternalFlightData(String departureAirport, String arrivalAirport, String accessKey) throws Exception{
 
+        String jsonString = "";
+
+        System.out.println("Starting...");
+        // Build the URL, depending on which query paramaters have been given.
         try {
-            //set the URL object and type cast it into an HttpURLConnection object so that we can set request types and get response codes back.
-            URL externalDataUrl = new URI("https://api.aviationstack.com/v1/flights?dep_iata=LHR&arr_iata=JFK&access_key=e4c48a8c4963d21a5e20e6c37b3c2043").toURL();
+            URIBuilder externalDataUrlBuilder = new URIBuilder("https://api.aviationstack.com/v1/flights");
+            if (departureAirport != null) {
+                externalDataUrlBuilder.addParameter("dep_iata", departureAirport);
+            }
+            if (arrivalAirport != null) {
+                externalDataUrlBuilder.addParameter("arr_iata", arrivalAirport);
+            }
+            externalDataUrlBuilder.addParameter("limit", "3");
+            externalDataUrlBuilder.addParameter("access_key", accessKey);
+
+            // Convert components into an actual URL
+            URL externalDataUrl = externalDataUrlBuilder.build().toURL();
 
             HttpURLConnection httpUrlConnection = (HttpURLConnection) externalDataUrl.openConnection();
             httpUrlConnection.setRequestMethod("GET");
@@ -24,32 +41,42 @@ public class ExternalFlightService {
             //Getting the response code
             int responsecode = httpUrlConnection.getResponseCode();
 
-
+            // If response code isn't OK
             if (responsecode != 200) {
                 throw new RuntimeException("HttpResponseCode: " + responsecode);
             } else {
-
-                String inline = "";
                 Scanner scanner = new Scanner(externalDataUrl.openStream());
             
                 //Write all the JSON data into a string using a scanner
                 while (scanner.hasNext()) {
-                    inline += scanner.nextLine();
-
+                    jsonString += scanner.nextLine();                
+                }
                 //Close the scanner
                 scanner.close();
-
-                System.out.println(inline);
+                System.out.println(jsonString);
             }
-        }
-
-
-
-
+            
         } catch(Exception e) {
             e.printStackTrace();
+            return;
         }
 
+        if (jsonString.isEmpty()) {
+            System.out.println("No data received from API.");
+            return;
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        ExternalFlightApiResponse apiResponse = objectMapper.readValue(jsonString, ExternalFlightApiResponse.class);
+
+        if (apiResponse.getData() == null || apiResponse.getData().isEmpty()) {
+            System.out.println("No flights found.");
+            return;
+        }
+
+        for (Data flight : apiResponse.getData()) {
+            System.out.println("Departure: " + flight.getDeparture().getIata()
+                    + " → Arrival: " + flight.getArrival().getIata());
+        }
         
 
             

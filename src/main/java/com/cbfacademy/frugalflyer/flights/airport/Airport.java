@@ -1,7 +1,6 @@
 package com.cbfacademy.frugalflyer.flights.airport;
 
 import com.cbfacademy.frugalflyer.flights.destination.Destination;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
@@ -15,7 +14,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "airports")
-@Schema(description = "Airport object containing ID, name, city and country.")
+@Schema(description = "Airport object containing ID, name and destination.")
 public class Airport {
 
     /**
@@ -34,8 +33,6 @@ public class Airport {
      */
     @ManyToOne
     @JoinColumn(name = "destination_id")
-    // To prevent infinite recursion caused by bidirectional relationship.
-    @JsonIgnore
     private Destination destination;
 
     /**

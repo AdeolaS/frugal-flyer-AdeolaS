@@ -3,13 +3,11 @@ package com.cbfacademy.frugalflyer.flights.destination;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cbfacademy.frugalflyer.flights.airport.Airport;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -17,6 +15,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "destinations")
+@Schema(description = "Destination object containing ID, city, country, climate and tags.")
 public class Destination {
     
     /**
@@ -24,19 +23,23 @@ public class Destination {
      */
     @Id
     @GeneratedValue
+    @Schema(name = "id", example = "123")
     private Long id;
 
     /**
      * City name of destination
      */
+    @Schema(name = "city", example = "London")
     private String city;
     /**
      * Country name of destination
      */
+    @Schema(name = "country", example = "Spain")
     private String country;
     /**
      * Climate type of destination. E.g. temperate, tropical, arctic, desert etc.
      */
+    @Schema(name = "climate", example = "temperate")
     private String climate;
 
     /**
@@ -44,13 +47,8 @@ public class Destination {
      * ElementCollection Annotation creates another table called destination_tags.
      */
     @ElementCollection
+    @Schema(name = "tags", example = "{romantic, mountains, desert}")
     private List<String> tags = new ArrayList<>();
-
-    /**
-     * List of Airports that are in the destination
-     */
-    @OneToMany(mappedBy = "destination")
-    private List<Airport> airports;
 
     /**
      * Default constructor required by JPA
@@ -65,12 +63,11 @@ public class Destination {
      * @param tags descriptive tags of the destination e.g temperate, tropical
      * @param airports airports present in the destination
      */
-    public Destination(String city, String country, String climate, List<String> tags, List<Airport> airports) {
+    public Destination(String city, String country, String climate, List<String> tags) {
         this.city = city;
         this.country = country;
         this.climate = climate;
         this.tags = tags;
-        this.airports = airports;
     }
 
     /**
@@ -144,21 +141,4 @@ public class Destination {
     public void setTags(List<String> tags) {
         this.tags = tags;
     }
-
-    /**
-     * gets list of airports at the destination
-     * @return list of Airports
-     */
-    public List<Airport> getAirports() {
-        return airports;
-    }
-
-    /**
-     * sets list of airports at the destinatio
-     * @param airports list of Airports
-     */
-    public void setAirports(List<Airport> airports) {
-        this.airports = airports;
-    }
-    
 }

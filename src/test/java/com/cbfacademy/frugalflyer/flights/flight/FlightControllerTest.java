@@ -8,12 +8,14 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Description;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import com.cbfacademy.frugalflyer.flights.airport.Airport;
 import com.cbfacademy.frugalflyer.flights.destination.Destination;
@@ -33,7 +35,7 @@ public class FlightControllerTest {
 	@MockitoBean
 	private FlightService flightService;
 
-    private Destination destination = new Destination("City", "Country", "Climate", List.of("tag"), List.of());
+    private Destination destination = new Destination("City", "Country", "Climate", List.of("tag"));
     private Airport london = new Airport("LHR", "Heathrow Airport", destination);
     private Airport newYork = new Airport("JFK", "John F. Kennedy International Airport", destination);
     private Airport barcelona = new Airport("BCN", "Barcelona El Prat Airport", destination);
@@ -124,5 +126,15 @@ public class FlightControllerTest {
     //     //assert that the response will be OK 200
     //     .andExpect(status().isOk());
     // }
+
+    private static Flight setFlightId(Flight flight) {
+		ReflectionTestUtils.setField(flight, "id", UUID.randomUUID());
+		return flight;
+	}
+
+    private static Destination setDestinationId(Destination destination) {
+		ReflectionTestUtils.setField(destination, "id", UUID.randomUUID());
+		return destination;
+	}
 
 }

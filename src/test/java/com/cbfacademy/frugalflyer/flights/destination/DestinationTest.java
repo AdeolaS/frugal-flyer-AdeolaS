@@ -8,24 +8,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.cbfacademy.frugalflyer.flights.airport.Airport;
 
 @DisplayName(value = "Destination Test Suite")
 public class DestinationTest {
     
     private Destination destination;
-    private Airport heathrow;
-    private Airport gatwick;
     private List<String> tagsList;
-    private List<Airport> airportsList;
     
     @BeforeEach
     public void setup() {
-        heathrow = new Airport();
-        gatwick = new Airport();
-        airportsList = List.of(heathrow, gatwick);
         tagsList = List.of("multicultural", "city");
-        destination = new Destination("London", "United Kingdom", "temperate", tagsList, airportsList);
+        destination = new Destination("London", "United Kingdom", "temperate", tagsList);
     }
 
     @Test
@@ -50,12 +43,6 @@ public class DestinationTest {
     @DisplayName("getTags retrieves the correct destination tags.")
     public void testGetTags() {
         assertEquals(tagsList, destination.getTags());
-    }
-
-    @Test
-    @DisplayName("getAirport retrieves the correct destination airports.")
-    public void testGetAirports() {
-        assertEquals(airportsList, destination.getAirports());
     }
     
     @Test
@@ -88,16 +75,5 @@ public class DestinationTest {
         List<String> tags = List.of("Romantic", "Food");
         destination.setTags(tags);
         assertEquals(tags, destination.getTags());
-    }
-
-    @Test
-    @DisplayName("setAirports sets the destination's airports.")
-    public void testSetAirports() {
-        Airport airport1 = new Airport();
-        Airport airport2 = new Airport();
-        List<Airport> airports = List.of(airport1, airport2);
-
-        destination.setAirports(airports);
-        assertEquals(airports, destination.getAirports());
     }
 }

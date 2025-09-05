@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+
+/**
+ * Controller method that fetches the data from an external API.
+ */
 @RestController
 @RequestMapping("/api/external-flights")
 public class ExternalFlightController {
@@ -16,6 +21,7 @@ public class ExternalFlightController {
         this.externalFlightService = externalFlightService;
     }
 
+    @Operation(summary = "Retrieves external flight data, applying filters using given paramenters.")
     @GetMapping
     public ResponseEntity<ExternalFlightApiResponse> getExternalFlightData(
         @RequestParam String departureAirport, 

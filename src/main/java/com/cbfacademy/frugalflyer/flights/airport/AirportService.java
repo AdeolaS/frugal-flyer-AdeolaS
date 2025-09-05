@@ -54,14 +54,19 @@ public class AirportService {
     }
 
     @Transactional
-    public Airport updateAirport(String code, Airport updatedAirport) throws AirportNotFoundException {
+    public Airport updateAirport(String code, Airport updatedAirport) 
+    throws AirportNotFoundException, OptimisticLockingFailureException, IllegalArgumentException {
 
-        if (airportRepo.findByCodeIgnoreCase(code) == null) {
+        if (code == null || updatedAirport == null) {
+            throw new IllegalArgumentException("Code and updated airport must not be null");
+        }
+
+        Airport airport = airportRepo.findByCodeIgnoreCase(code);
+
+        if (airport == null) {
             throw new AirportNotFoundException("Invalid Airport code: " + code + ". The airport you are trying to update doesn't exist in the database.");
         } else {
-            Airport airport = airportRepo.findByCodeIgnoreCase(code);
 
-            airport.setCode(updatedAirport.getCode());
             airport.setName(updatedAirport.getName());
             airport.setDestination(updatedAirport.getDestination());
 

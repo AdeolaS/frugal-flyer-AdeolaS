@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.cbfacademy.frugalflyer.flights.exceptions.ApiError;
 
@@ -24,7 +23,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-
+/**
+ * Controller class to implement airport API endpoints and handle requests.
+ */
 @RestController
 @RequestMapping("/api/airports")
 public class AirportController {
@@ -35,10 +36,17 @@ public class AirportController {
         this.airportService = airportService;
     }
 
+    /**
+     * Deletes specified airport
+     * @param code Iata code of airport
+     * @return reponse body
+     * @throws AirportNotFoundException if no airports exist with airport code
+     * @throws AirportInUseException if specifed airport's key is being used somewhere else in the database.
+     */
     //Annotations for Swagger Documentation
     @Operation(summary = "Deletes an airport, with the specified code, from the database.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "204", description = "Flights successfully deleted."),
+        @ApiResponse(responseCode = "204", description = "Flight successfully deleted."),
         @ApiResponse(responseCode = "404", description = "Not Found - Input Airport code was not found.",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))}),
         @ApiResponse(responseCode = "400", description = "Airport in Use - Input airport has flight going to and from it so cannot be deleted.",
@@ -55,9 +63,22 @@ public class AirportController {
                 .build();
     }
     
+    /**
+     * Add a new airport
+     * @param airport Airport object to add
+     * @return Response entity with body of the created airport
+     * @throws IllegalArgumentException 
+     * @throws OptimisticLockingFailureException
+     */
     //Annotations for Swagger Documentation
     @Operation(summary = "Adds a new airport to the database.")   
-    @ApiResponse(responseCode = "200", description = "Flights successfully retrieved.")   
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Flight successfully created."),
+        @ApiResponse(responseCode = "404", description = "Invalid Argument.",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))}),
+        @ApiResponse(responseCode = "412", description = "Optimistic Locking Failure Exception.",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))})
+    })  
     @PostMapping
     public ResponseEntity<Airport> createNewAirport(@RequestBody Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
 
@@ -68,14 +89,29 @@ public class AirportController {
                 .body(createdAirport);
     }
 
+    /**
+     * 
+     * @param code
+     * @param updatedAirport
+     * @return
+     * @throws AirportNotFoundException
+     * @throws OptimisticLockingFailureException
+     * @throws IllegalArgumentException
+     */
     //Annotations for Swagger Documentation
-    @Operation(summary = "Updates an airport in the database.")
-    @ApiResponse(responseCode = "200", description = "Flight successfully updated.") 
+    @Operation(summary = "Updates an airport in the database.")   
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Flight successfully updated."),
+        @ApiResponse(responseCode = "404", description = "Invalid Argument.",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))}),
+        @ApiResponse(responseCode = "412", description = "Optimistic Locking Failure Exception.",
+            content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))})
+    })  
     @PutMapping("/{code}")
     public Airport updateAirport(
         @PathVariable String code,
         @RequestBody Airport updatedAirport
-    ) throws AirportNotFoundException {
+    ) throws AirportNotFoundException, OptimisticLockingFailureException, IllegalArgumentException {
 
         return airportService.updateAirport(code, updatedAirport);
     }

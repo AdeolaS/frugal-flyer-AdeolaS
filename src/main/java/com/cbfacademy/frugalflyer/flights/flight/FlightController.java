@@ -72,15 +72,6 @@ public class FlightController {
             @RequestParam (required = false) Integer flexiDays
             ) throws InvalidDateException, AirportNotFoundException, InvalidNumberException {
         
-        
-        // final ExternalFlightService externalFlightService = new ExternalFlightService();
-
-		// try {
-		// 	externalFlightService.getExternalFlightData();
-		// } catch(Exception e) {
-        //     e.printStackTrace();
-		// }
-
         return flightService.searchFlightsUsingArrivalAirport(maxBudget, departureAirport, arrivalAirport, departureDate, flexiDays);
     }
 

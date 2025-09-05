@@ -15,9 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 public interface AirportRepository extends ListCrudRepository<Airport,String> {
     
     @Transactional(readOnly = true)
-    Airport findByCodeIgnoreCase(String code);
+    public Airport findByCodeIgnoreCase(String code);
 
     @Modifying
     @Transactional
     public void deleteByCodeIgnoreCase(String code);
+
+    @Transactional(readOnly = true)
+    public boolean existsByCodeIgnoreCase(String code);
 }

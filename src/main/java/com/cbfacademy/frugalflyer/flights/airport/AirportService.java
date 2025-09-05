@@ -41,6 +41,15 @@ public class AirportService {
     @Transactional
     public Airport createNewAirport(Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
 
+        if (airport == null || airport.getCode() == null) {
+            throw new IllegalArgumentException("Airport and its code cannot be equal to null");
+        }
+        if (!airport.getCode().matches("[A-Z]{3}")) {
+            throw new IllegalArgumentException("Airport code must be a 3- capital letter IATA code.");
+        }
+        if (airportRepo.existsByCodeIgnoreCase(airport.getCode())) {
+            throw new IllegalArgumentException("Airport IATA code already exists in the database.");
+        }
         return airportRepo.save(airport);
     }
 

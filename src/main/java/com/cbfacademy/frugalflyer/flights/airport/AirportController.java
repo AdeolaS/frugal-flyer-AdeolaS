@@ -61,15 +61,11 @@ public class AirportController {
     @PostMapping
     public ResponseEntity<Airport> createNewAirport(@RequestBody Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
 
-        try {
-            Airport createdAirport = airportService.createNewAirport(airport);
+        Airport createdAirport = airportService.createNewAirport(airport);
 
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(createdAirport);
-        } catch (RuntimeException exception) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), exception);
-        }
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createdAirport);
     }
 
     //Annotations for Swagger Documentation

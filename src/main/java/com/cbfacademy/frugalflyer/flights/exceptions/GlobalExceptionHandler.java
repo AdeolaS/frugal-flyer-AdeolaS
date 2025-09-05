@@ -2,6 +2,7 @@ package com.cbfacademy.frugalflyer.flights.exceptions;
 
 import java.time.LocalDateTime;
 
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.cbfacademy.frugalflyer.flights.airport.AirportInUseException;
 import com.cbfacademy.frugalflyer.flights.airport.AirportNotFoundException;
 import com.cbfacademy.frugalflyer.flights.flight.FlightNotFoundException;
+
 
 
 /**
@@ -124,6 +126,34 @@ public class GlobalExceptionHandler {
         ApiError body = new ApiError(
             e.getMessage(),
             HttpStatus.BAD_REQUEST.value(),
+            LocalDateTime.now()
+        );
+        
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(body);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> IllegalArgument(IllegalArgumentException e) {
+        // Generate body of the Response Entity with the thrown error message, the HTTP Status and time of error.
+        ApiError body = new ApiError(
+            e.getMessage(),
+            HttpStatus.BAD_REQUEST.value(),
+            LocalDateTime.now()
+        );
+        
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(body);
+    }
+
+    @ExceptionHandler(OptimisticLockingFailureException.class)
+    public ResponseEntity<ApiError> OptimisticLockingFailure(OptimisticLockingFailureException e) {
+        // Generate body of the Response Entity with the thrown error message, the HTTP Status and time of error.
+        ApiError body = new ApiError(
+            e.getMessage(),
+            HttpStatus.PRECONDITION_FAILED.value(),
             LocalDateTime.now()
         );
         

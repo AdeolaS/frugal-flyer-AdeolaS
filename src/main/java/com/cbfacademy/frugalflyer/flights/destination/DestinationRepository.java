@@ -20,4 +20,8 @@ public interface DestinationRepository extends ListCrudRepository<Destination,Lo
      * @return True or false
      */
     public boolean existsByTags(String tag);
+
+    public boolean existsById(Long id);
+
+    public Destination findDestinationById(Long id);
 }

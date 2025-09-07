@@ -6,6 +6,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cbfacademy.frugalflyer.flights.destination.DestinationRepository;
 import com.cbfacademy.frugalflyer.flights.flight.FlightRepository;
 
 /**
@@ -16,10 +17,12 @@ public class AirportService {
 
     private final AirportRepository airportRepo;
     private final FlightRepository flightRepo;
+    private final DestinationRepository destinationRepo;
 
-    public AirportService(AirportRepository airportRepo, FlightRepository flightRepo) {
+    public AirportService(AirportRepository airportRepo, FlightRepository flightRepo, DestinationRepository destinationRepo) {
         this.airportRepo = airportRepo;
         this.flightRepo = flightRepo;
+        this.destinationRepo = destinationRepo;
     }
 
     @Transactional
@@ -39,36 +42,41 @@ public class AirportService {
     }
 
     @Transactional
-    public Airport createNewAirport(Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
+    public Airport createNewAirport(String airportCode, String airportName, Long destinationId) throws IllegalArgumentException, OptimisticLockingFailureException {
 
-        if (airport == null || airport.getCode() == null) {
-            throw new IllegalArgumentException("Airport and its code cannot be equal to null");
+        if (airportCode == null || airportCode.isBlank() || airportName == null || airportName.isBlank()) {
+            throw new IllegalArgumentException("Airport name and code cannot be empty.");
         }
-        if (!airport.getCode().matches("[A-Z]{3}")) {
+        if (!airportCode.matches("[A-Z]{3}")) {
             throw new IllegalArgumentException("Airport code must be a 3- capital letter IATA code.");
         }
-        if (airportRepo.existsByCodeIgnoreCase(airport.getCode())) {
+        if (airportRepo.existsByCodeIgnoreCase(airportCode)) {
             throw new IllegalArgumentException("Airport IATA code already exists in the database.");
         }
-        return airportRepo.save(airport);
+        if (!destinationRepo.existsById(destinationId)) {
+            throw new IllegalArgumentException("There is no destination with this Id in the databae.");
+        }
+        return airportRepo.save(new Airport(airportCode, airportName, destinationRepo.findDestinationById(destinationId)));
     }
 
     @Transactional
-    public Airport updateAirport(String code, Airport updatedAirport) 
+    public Airport updateAirport(String oldAirportCode, String airportName, Long destinationId) 
     throws AirportNotFoundException, OptimisticLockingFailureException, IllegalArgumentException {
 
-        if (code == null || updatedAirport == null) {
-            throw new IllegalArgumentException("Code and updated airport must not be null");
+        if (oldAirportCode == null || oldAirportCode.isBlank() || airportName == null || airportName.isBlank()) {
+            throw new IllegalArgumentException("Code and updated airport name must not be null");
         }
-
-        Airport airport = airportRepo.findByCodeIgnoreCase(code);
+        if (!destinationRepo.existsById(destinationId)) {
+            throw new IllegalArgumentException("There is no destination with this Id in the databae.");
+        }
+        Airport airport = airportRepo.findByCodeIgnoreCase(oldAirportCode);
 
         if (airport == null) {
-            throw new AirportNotFoundException("Invalid Airport code: " + code + ". The airport you are trying to update doesn't exist in the database.");
+            throw new AirportNotFoundException("Invalid Airport code: " + oldAirportCode + ". The airport you are trying to update doesn't exist in the database.");
         } else {
 
-            airport.setName(updatedAirport.getName());
-            airport.setDestination(updatedAirport.getDestination());
+            airport.setName(airportName);
+            airport.setDestination(destinationRepo.findDestinationById(destinationId));
 
             return airportRepo.save(airport);
         }

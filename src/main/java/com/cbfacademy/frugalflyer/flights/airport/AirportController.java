@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cbfacademy.frugalflyer.flights.exceptions.ApiError;
@@ -80,9 +80,12 @@ public class AirportController {
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))})
     })  
     @PostMapping
-    public ResponseEntity<Airport> createNewAirport(@RequestBody Airport airport) throws IllegalArgumentException, OptimisticLockingFailureException {
+    public ResponseEntity<Airport> createNewAirport(
+        @RequestParam String airportCode, 
+        @RequestParam String airportName, 
+        @RequestParam Long destinationId) throws IllegalArgumentException, OptimisticLockingFailureException {
 
-        Airport createdAirport = airportService.createNewAirport(airport);
+        Airport createdAirport = airportService.createNewAirport(airportCode, airportName, destinationId);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -107,13 +110,14 @@ public class AirportController {
         @ApiResponse(responseCode = "412", description = "Optimistic Locking Failure Exception.",
             content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))})
     })  
-    @PutMapping("/{code}")
+    @PutMapping
     public Airport updateAirport(
-        @PathVariable String code,
-        @RequestBody Airport updatedAirport
+        @RequestParam String oldAirportCode, 
+        @RequestParam String airportName, 
+        @RequestParam Long destinationId
     ) throws AirportNotFoundException, OptimisticLockingFailureException, IllegalArgumentException {
 
-        return airportService.updateAirport(code, updatedAirport);
+        return airportService.updateAirport(oldAirportCode, airportName, destinationId);
     }
 
 

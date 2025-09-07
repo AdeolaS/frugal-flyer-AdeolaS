@@ -61,7 +61,6 @@ public class Destination {
      * @param country name of country
      * @param climate type of climate
      * @param tags descriptive tags of the destination e.g temperate, tropical
-     * @param airports airports present in the destination
      */
     public Destination(String city, String country, String climate, List<String> tags) {
         this.city = city;

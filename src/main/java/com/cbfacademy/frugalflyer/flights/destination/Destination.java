@@ -47,7 +47,7 @@ public class Destination {
      * ElementCollection Annotation creates another table called destination_tags.
      */
     @ElementCollection
-    @Schema(name = "tags", example = "{romantic, mountains, desert}")
+    @Schema(name = "tags", example = "[romantic, mountains, desert]")
     private List<String> tags = new ArrayList<>();
 
     /**

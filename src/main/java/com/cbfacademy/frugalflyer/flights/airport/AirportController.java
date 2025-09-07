@@ -90,11 +90,11 @@ public class AirportController {
     }
 
     /**
-     * 
-     * @param code
-     * @param updatedAirport
-     * @return
-     * @throws AirportNotFoundException
+     * Updates an existing airport. The IATA code will be kept the same.
+     * @param code IATA code of existing airport
+     * @param updatedAirport new Airport
+     * @return updated airport
+     * @throws AirportNotFoundException 
      * @throws OptimisticLockingFailureException
      * @throws IllegalArgumentException
      */
@@ -117,6 +117,10 @@ public class AirportController {
     }
 
 
+    /**
+     * Retrieves all airports in the database.
+     * @return list of airports
+     */
     //Annotations for Swagger Documentation
     @Operation(summary = "Retrieves all airports in the database.")
     @ApiResponses(value = {
@@ -129,6 +133,12 @@ public class AirportController {
         return airportService.getAllAirports();
     }
 
+    /**
+     * Finds an airport, with the specified code, from the database.
+     * @param code IATA code of airport
+     * @return the airport
+     * @throws AirportNotFoundException
+     */
     //Annotations for Swagger Documentation
     @Operation(summary = "Finds an airport, with the specified code, from the database.")
     @ApiResponses(value = {

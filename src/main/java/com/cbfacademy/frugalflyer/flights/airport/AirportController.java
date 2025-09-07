@@ -64,10 +64,12 @@ public class AirportController {
     }
     
     /**
-     * Add a new airport
-     * @param airport Airport object to add
-     * @return Response entity with body of the created airport
-     * @throws IllegalArgumentException 
+     * Add a new airport to database
+     * @param airportCode
+     * @param airportName
+     * @param destinationId Id of destination that the airport is in
+     * @return Response Entity containing airport.
+     * @throws IllegalArgumentException
      * @throws OptimisticLockingFailureException
      */
     //Annotations for Swagger Documentation
@@ -94,10 +96,11 @@ public class AirportController {
 
     /**
      * Updates an existing airport. The IATA code will be kept the same.
-     * @param code IATA code of existing airport
-     * @param updatedAirport new Airport
+     * @param oldAirportCode IATA code of existing airport
+     * @param airportName
+     * @param destinationId Id of destination that the airport is in
      * @return updated airport
-     * @throws AirportNotFoundException 
+     * @throws AirportNotFoundException
      * @throws OptimisticLockingFailureException
      * @throws IllegalArgumentException
      */

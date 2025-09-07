@@ -7,7 +7,6 @@ import java.util.Scanner;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,17 +18,23 @@ import java.net.HttpURLConnection;
 @Service
 public class ExternalFlightService {
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    Gson gson = new Gson(); 
-
-    URL externalDataUrl;
-    String jsonString = "";
     
-    public ExternalFlightApiResponse getExternalFlightData(String departureAirport, String arrivalAirport, String accessKey) throws Exception{
+    
+    public ExternalFlightApiResponse getExternalFlightData(String departureAirport, String arrivalAirport, String accessKey) 
+        throws Exception, IllegalArgumentException {
 
-        System.out.println("Starting...");
-        // Build the URL, depending on which query paramaters have been given.
+        Gson gson = new Gson(); 
+
+        URL externalDataUrl;
+        String jsonString = "";
+    
+        if (!departureAirport.matches("[A-Z]{3}") || !arrivalAirport.matches("[A-Z]{3}")) {
         
+        throw new IllegalArgumentException("Airport codes must be 3- capital letter IATA code.");
+        }
+        System.out.println("Starting...");
+        
+        // Build the URL, depending on which query paramaters have been given.
         URIBuilder externalDataUrlBuilder = new URIBuilder("https://api.aviationstack.com/v1/flights");
         if (departureAirport != null) {
             externalDataUrlBuilder.addParameter("dep_iata", departureAirport);
@@ -60,7 +65,7 @@ public class ExternalFlightService {
         scanner.close();
         
         // Parse with Gson
-        Gson gson = new Gson();
+        gson = new Gson();
         Type type = new TypeToken<ExternalFlightApiResponse>(){}.getType();
         
         ExternalFlightApiResponse apiResponse = gson.fromJson(jsonString, type);

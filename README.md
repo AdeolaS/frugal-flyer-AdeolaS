@@ -34,6 +34,8 @@ ___
 <li><a href="https://swagger.io/specification/">Swagger/Open API</a></li>
 <li><a href="https://junit.org/">JUnit5</a></li>
 <li><a href="https://site.mockito.org/">Mockito</a></li>
+<li><a href="https://hc.apache.org/">Apache Httpcomponents</a></li>
+<li><a href="https://github.com/google/gson">Google Gson</a></li>
 
 ___
 

@@ -25,10 +25,10 @@ public class ExternalFlightController {
     @GetMapping
     public ResponseEntity<ExternalFlightApiResponse> getExternalFlightData(
         @RequestParam String departureAirport, 
-        @RequestParam String arrivalAirport,
-        @RequestParam (defaultValue = "e4c48a8c4963d21a5e20e6c37b3c2043") String accessKey
+        @RequestParam String arrivalAirport
         ) throws Exception, IllegalArgumentException {
 
+        String accessKey = "e4c48a8c4963d21a5e20e6c37b3c2043";
         try {
             return ResponseEntity
                 .status(200)

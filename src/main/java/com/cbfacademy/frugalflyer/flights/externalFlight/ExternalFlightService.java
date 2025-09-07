@@ -13,13 +13,20 @@ import com.google.gson.reflect.TypeToken;
 import java.net.HttpURLConnection;
 
 /**
- * This method fetches flights from an external API (Aviation Stack) and parses the response into an ExternalFlightApiResponse object.
+ * This class deals with fetching flights from an external API (Aviation Stack) and parses the response into an ExternalFlightApiResponse object.
  */
 @Service
 public class ExternalFlightService {
-
     
-    
+    /**
+     * Builds a url using the provided departure and arrival airports and uses that to get data from https://api.aviationstack.com/v1/flights
+     * @param departureAirport
+     * @param arrivalAirport
+     * @param accessKey Key needed to access the external API
+     * @return The response from the api
+     * @throws Exception
+     * @throws IllegalArgumentException
+     */
     public ExternalFlightApiResponse getExternalFlightData(String departureAirport, String arrivalAirport, String accessKey) 
         throws Exception, IllegalArgumentException {
 
@@ -75,15 +82,6 @@ public class ExternalFlightService {
                            " and Arrival: " + flight.getArrival().getIata() +
                            " and Departure Date: " + flight.getFlightDate());
         }  
-
         return apiResponse;
     }
 }
-
-
-
-
-
-
-
-

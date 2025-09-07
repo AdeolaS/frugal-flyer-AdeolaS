@@ -107,8 +107,4 @@ public interface FlightRepository extends ListCrudRepository<Flight, Long> {
         "WHERE LOWER(f.departureAirport.code) = LOWER(:code) " +
         "   OR LOWER(f.arrivalAirport.code) = LOWER(:code)")
     public boolean existsByAirportCode(@Param("code") String code);
-
-    // public boolean existsByDepartureAirportIgnoreCase(String code);
-
-    // public boolean existsByArrivalAirportIgnoreCase(String code);
 }

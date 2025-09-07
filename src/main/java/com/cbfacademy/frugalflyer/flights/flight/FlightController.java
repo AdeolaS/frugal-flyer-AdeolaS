@@ -153,6 +153,4 @@ public class FlightController {
         
         return flightService.findCheapFlightAnomalies(departureAirport, arrivalAirport, threshold);
     }
-    
-    
 }

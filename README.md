@@ -20,6 +20,10 @@ ___
     - Departure date (With flexible option)
 - Price anomaly detection
 - Random flight suggestions
+- Create new airport
+- Delete existing airport
+- Update existing airport
+- Get real world flight data from an external API
 
 ___
 
